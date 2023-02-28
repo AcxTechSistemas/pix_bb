@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 # Unreleased
 ## Added
 
-- First Tag Release
+- Added publish.yml
 
 ## Changed
 
@@ -22,7 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Fixed
 - No issues fixed yet.
 
-## 0.1.1 - 2023-02-28
+## 0.1.2 - 2023-02-28
 
 ### Added
 - Initial release of bb_pix.
