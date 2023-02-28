@@ -7,7 +7,7 @@
 <br />
 <div align="center">
   <a href="https://pub.dev/packages/pix_bb">
-    <img src="images/package-logo.png" alt="Logo" width="120">
+    <img src="https://raw.githubusercontent.com/AcxTechSistemas/pix_bb/main/images/package-logo.png" alt="Logo" width="120">
   </a>
 
   <p align="center">
@@ -57,7 +57,7 @@
 
 <br>
 <Center>
-<img src="images\product-screenshot.png" alt="Pix Banco do Brasil PNG" width="400">
+<img src="https://raw.githubusercontent.com/AcxTechSistemas/pix_bb/main/images/product-screenshot.png" alt="Pix Banco do Brasil PNG" width="400">
 </Center>
 
 <br>
