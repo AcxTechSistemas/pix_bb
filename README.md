@@ -57,7 +57,7 @@
 
 <br>
 <Center>
-<img src="https://raw.githubusercontent.com/AcxTechSistemas/pix_bb/main/images/product-screenshot.png" alt="Pix Banco do Brasil PNG" width=200>
+<img src="https://raw.githubusercontent.com/AcxTechSistemas/pix_bb/main/images/product-screenshot.png" alt="Pix Banco do Brasil PNG" width=500>
 </Center>
 
 <br>
@@ -68,6 +68,12 @@ This package offers an easy-to-use interface for integrating with Banco do Brasi
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- GETTING STARTED -->
+
+## Pre Requirements
+- Key Pix registered with Banco do Brasil
+- Exclusive for legal entities
+- Registration on the [BB Developers Portal](https://developers.bb.com.br/conheca-o-portal)
+
 ## Getting Started
 
 To install This package in your project you can follow the instructions below:
@@ -92,8 +98,11 @@ b)    or use:
 This package is ready for get transactions information quickly!
 
 ```Dart
-final pixBB = PixBB();
+// For homologation environment, define the "environment" parameter with Ambiente.homologacao
+// Example PixBB(ambiente: Ambiente.homologacao);
+//By default, the initial environment is defined as the production one.
 
+final pixBB = PixBB(); 
 
 // Make a request to the API with request a list of transactions received from the last 4 days
 
@@ -140,11 +149,17 @@ _For more examples, please refer to the_ [Documentation](https://pub.dev/documen
 
 <!-- ROADMAP -->
 ## Features
+- ✅ Queries
+  - ✅ Get Recent Transactions
+  - ✅ Get Transactions By Date
 
-- ✅ GET RECENT TRANSCATIONS
-- ✅ GET TRANSACTIONS BY DATE
+---
+- 🚧 Dynamic QR Code configuration: Creation of Pix billing with unique identification;
+- 🚧 Receipt Verification: Status verification of generated charges;
+- 🚧 Review: Allows you to change the generated billing data;
+- 🚧 Return (request and consultation): Allows Pix to be returned to the payer in partial or full amount and that returns can be consulted.
 
-Right now this package has concluded all his intended features. If you have any suggestions or find something to report, see below how to contribute to it.
+<!-- Right now this package has concluded all his intended features. If you have any suggestions or find something to report, see below how to contribute to it. -->
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -153,7 +168,7 @@ Right now this package has concluded all his intended features. If you have any 
 
 **Request an access token**
 
-Request a list of transactions received from the last 4 days
+Request a token
 
 ```Dart
 accessToken = await bb.getToken(basicKey: 'BASIC_KEY');
@@ -174,7 +189,7 @@ await getRecentReceivedTransactions(
 
 Request a list of transactions as of a specific date
 
-Attention!, the maximum difference in days between the start and end date must be 4 days
+⚠️ Attention  the maximum difference in days between the start and end date must be 4 days ⚠️
 
 ```Dart
 await getTransactionsByDate(

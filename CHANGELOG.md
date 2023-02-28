@@ -7,9 +7,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 # Unreleased
-## Added
-
-- Nothing added yet.
 
 ## Changed
 
@@ -18,13 +15,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Removed
 
 - Nothing removed  yet.
+## 0.1.4 - 2023-02-28
 
-## 0.1.3 - 2023-02-28
+## Added
+
+- When instantiating the Pixclass you can add an optional parameter: 'ambiente', which will define what the request environment will be the parameter can receive: 
+Ambiente.homologacao or Ambiente.producaoby default when instantiating the parameter production will be defined
+
 ## Fixed
-- Fixed lib/src/error/pix_error.dart doesn't match the Dart formatter.
-- Fixed lib/src/repositories/pix_repository.dart doesn't match the Dart formatter.
-- Fixed The package description is too long.
-    - Changed this: The package description is too long.
-    - For this: Easy-to-use interface for integrating with Banco do Brasil's Pix API.
-- Fixed 0/10 points: 20% or more of the public API has dartdoc comments
-    - Added comments for minimum 20% of public Api
+- Fixed the list received by the request returned as an increasing list, now by default the list will be descending from the most recent transaction date to the last one received
+- Fixed typo in README.md

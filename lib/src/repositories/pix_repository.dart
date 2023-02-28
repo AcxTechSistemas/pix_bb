@@ -48,7 +48,7 @@ class PixRepository {
     for (var transaction in response['pix']) {
       pixTransactions.add(Pix.fromJson(transaction));
     }
-    return pixTransactions;
+    return pixTransactions.reversed.toList();
   }
 
   /// Retrieves the [Pix] transactions within a specific date range.
@@ -119,7 +119,7 @@ class PixRepository {
             pixTransactions.add(Pix.fromJson(pix));
           }
         }
-        return pixTransactions;
+        return pixTransactions.reversed.toList();
       }
     }
   }

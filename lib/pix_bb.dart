@@ -7,6 +7,11 @@ import 'src/models/token_body.dart';
 import 'src/services/dio_client.dart';
 export './pix_bb.dart';
 
+enum Ambiente {
+  producao,
+  homologacao,
+}
+
 /// A library that provides functionality to interact with the Pix API of Banco do Brasil.
 ///
 /// This library contains classes to request and retrieve information about Pix transactions, including receiving recent transactions
@@ -16,6 +21,10 @@ export './pix_bb.dart';
 /// - [_client]: an instance of [DioClient] used to make requests to the API.
 /// - [_tokenUrl]: a [String] representing the URL to request a token for the API.
 /// - [_apiUrl]: a [String] representing the base URL for the Pix API.
+/// - [ambiente] a [Ambiente] representing which url will be defined in the request
+/// - [Ambiente.homologacao] representing that the url that will be used in the request will be for the approval environment
+/// - [Ambiente.producao] representing that the url that will be used in the request will be for the production environment
+/// - By default the environment is set to production
 ///
 /// To use this library, import it and create an instance of the [PixBB] class with the necessary parameters. Call the appropriate methods to request the desired information.
 ///
@@ -30,9 +39,27 @@ export './pix_bb.dart';
 /// final recentTransactions = await pixbb.getRecentReceivedTransactions(accessToken: token.accessToken, developerApplicationKey: 'my_dev_key');
 /// ```
 class PixBB {
+  final Ambiente ambiente;
   final _client = DioClient();
-  final _tokenUrl = 'https://oauth.bb.com.br/oauth/token';
-  final _apiUrl = 'https://api.bb.com.br/pix/v1';
+  late String _tokenUrl;
+  late String _apiUrl;
+
+  PixBB({this.ambiente = Ambiente.producao}) {
+    _changeAmbiente();
+  }
+
+  _changeAmbiente() {
+    switch (ambiente) {
+      case Ambiente.producao:
+        _tokenUrl = 'https://oauth.bb.com.br/oauth/token';
+        _apiUrl = 'https://api.bb.com.br/pix/v1';
+        break;
+      case Ambiente.homologacao:
+        _tokenUrl = 'https://oauth.hm.bb.com.br/oauth/token';
+        _apiUrl = 'https://api.hm.bb.com.br/pix/v1';
+        break;
+    }
+  }
 
   /// Requests a token for the Pix API with the provided [basicKey].
   ///

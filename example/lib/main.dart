@@ -27,9 +27,10 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-final pixBB = PixBB();
-const basicKey = 'BASIC_KEY';
-const developerApplicationKey = 'DEV_APP_KEY';
+final pixBB = PixBB(ambiente: Ambiente.homologacao);
+const basicKey =
+    'Basic ZXlKcFpDSTZJalU1TkRrek56Z3RaamhqWWlJc0ltTnZaR2xuYjFCMVlteHBZMkZrYjNJaU9qQXNJbU52WkdsbmIxTnZablIzWVhKbElqbzBPVFEzT0N3aWMyVnhkV1Z1WTJsaGJFbHVjM1JoYkdGallXOGlPakY5OmV5SnBaQ0k2SWpGbU4yTmpaRFF0TW1OaFl5MGlMQ0pqYjJScFoyOVFkV0pzYVdOaFpHOXlJam93TENKamIyUnBaMjlUYjJaMGQyRnlaU0k2TkRrME56Z3NJbk5sY1hWbGJtTnBZV3hKYm5OMFlXeGhZMkZ2SWpveExDSnpaWEYxWlc1amFXRnNRM0psWkdWdVkybGhiQ0k2TVN3aVlXMWlhV1Z1ZEdVaU9pSm9iMjF2Ykc5bllXTmhieUlzSW1saGRDSTZNVFkyT1RJek5qUXhNRGN4Tlgw';
+const developerApplicationKey = 'd27b077902ffabb0136ee17d10050056b961a5bc';
 
 class _HomePageState extends State<HomePage> {
   @override
