@@ -15,13 +15,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Removed
 
 - Nothing removed  yet.
-## 0.1.4 - 2023-02-28
+## 0.1.5 - 2023-02-28
 
 ## Added
 
-- When instantiating the Pixclass you can add an optional parameter: 'ambiente', which will define what the request environment will be the parameter can receive: 
-Ambiente.homologacao or Ambiente.producaoby default when instantiating the parameter production will be defined
+- Nothing Added  yet.
 
 ## Fixed
-- Fixed the list received by the request returned as an increasing list, now by default the list will be descending from the most recent transaction date to the last one received
-- Fixed typo in README.md
+- Fixed image size
