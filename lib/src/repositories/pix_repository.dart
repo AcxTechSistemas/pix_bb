@@ -7,6 +7,13 @@ import 'package:pix_bb/src/models/pix.dart';
 import 'package:pix_bb/src/services/client_service.dart';
 import '../models/parametros.dart';
 
+/// A class representing a PixRepository, responsible for managing requests and responses for Pix transactions.
+///
+/// This class contains information about a client, URLs and date ranges for requesting data.
+///
+/// The [PixRepository] class has a constructor that requires the following parameters:
+/// - [client]: an instance of [ClientService] that will be used to make requests.
+/// - [url]: a [String] representing the URL for the Pix API.
 class PixRepository {
   final ClientService client;
   List<Pix> pixTransactions = [];
@@ -14,6 +21,14 @@ class PixRepository {
   final String url;
 
   PixRepository(this.client, this.url);
+
+  /// Retrieves the recent received [Pix] transactions.
+  ///
+  /// This method takes the following parameters:
+  /// - [accessToken]: a [String] representing the access token.
+  /// - [developerApplicationKey]: a [String] representing the developer application key.
+  ///
+  /// This method returns a [Future<List<Pix>>].
 
   Future<List<Pix>> getRecentReceivedTransactions({
     required String accessToken,
@@ -36,6 +51,15 @@ class PixRepository {
     return pixTransactions;
   }
 
+  /// Retrieves the [Pix] transactions within a specific date range.
+  ///
+  /// This method takes the following parameters:
+  /// - [accessToken]: a [String] representing the access token.
+  /// - [developerApplicationKey]: a [String] representing the developer application key.
+  /// - [initialDate]: a [DateTime] object representing the start date of the date range.
+  /// - [finalDate]: a [DateTime] object representing the end date of the date range.
+  ///
+  /// This method returns a [Future<List<Pix>>].
   Future<List<Pix>> getTransactionsByDate({
     required String accessToken,
     required String developerApplicationKey,
@@ -53,7 +77,8 @@ class PixRepository {
       );
       throw PixError(
         exception: DateException(
-          message: 'Difference between start date and end date cannot be greater than 4 days',
+          message:
+              'Difference between start date and end date cannot be greater than 4 days',
           errorCode: 1001,
           errorData: {
             'error': 'Difference_between_dates_too_long',
@@ -99,6 +124,17 @@ class PixRepository {
     }
   }
 
+  /// Retrieves the [Pix] transactions within a specific date range.
+  ///
+  /// This method takes the following parameters:
+  /// - [initialDate]: a [DateTime] object representing the start date of the date range.
+  /// - [finalDate]: a [DateTime] object representing the end date of the date range.
+  /// - [accessToken]: a [String] representing the access token.
+  /// - [developerApplicationKey]: a [String] representing the developer application key.
+  /// - [paginaAtual]: an optional [String] representing the current page number of the transactions to retrieve, defaults to '0'.
+  ///
+  /// Returns a [Future<dynamic>] object that resolves to the transactions response from the server.
+  /// Throws a [PixError] if there is a [DioError] while performing the network request.
   Future<dynamic> _getTransactions(
     DateTime initialDate,
     DateTime finalDate,
@@ -130,7 +166,26 @@ class PixRepository {
   }
 }
 
+/// Formats the given [date] to a string representation in ISO 8601 format
+/// with a fixed timezone offset of -03:00.
+///
+/// This method takes the following parameter:
+/// - [date]: a [DateTime] object representing the date and time to be formatted.
+///
+/// Returns a [String] representing the formatted date and time in ISO 8601 format.
+///
+/// Example:
+///
+/// ```dart
+/// final date = DateTime.now();
+///
+/// final formattedDate = formatToIso8601TimeZone(date: date);
+/// print(formattedDate); // 2023-02-28T14:30:00.00-03:00
+/// ```
+/// Throws a [TypeError] if [date] is null.
+///
 String formatToIso8601TimeZone({required DateTime date}) {
-  String toIso8601TimeZone = DateFormat('yyyy-MM-ddThh:mm:ss.00-03:00').format(date);
+  String toIso8601TimeZone =
+      DateFormat('yyyy-MM-ddThh:mm:ss.00-03:00').format(date);
   return toIso8601TimeZone;
 }

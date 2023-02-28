@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 # Unreleased
 ## Added
 
-- Added publish.yml
+- Nothing added yet.
 
 ## Changed
 
@@ -19,12 +19,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Nothing removed  yet.
 
+## 0.1.3 - 2023-02-28
 ## Fixed
-- No issues fixed yet.
-
-## 0.1.2 - 2023-02-28
-
-### Added
-- Initial release of bb_pix.
-- Integration with the Banco do Brasil's Pix API.
-- Easy-to-use interface for retrieving transaction information in Flutter apps.
+- Fixed lib/src/error/pix_error.dart doesn't match the Dart formatter.
+- Fixed lib/src/repositories/pix_repository.dart doesn't match the Dart formatter.
+- Fixed The package description is too long.
+    - Changed this: The package description is too long.
+    - For this: Easy-to-use interface for integrating with Banco do Brasil's Pix API.
+- Fixed 0/10 points: 20% or more of the public API has dartdoc comments
+    - Added comments for minimum 20% of public Api

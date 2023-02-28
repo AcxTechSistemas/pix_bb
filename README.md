@@ -57,7 +57,7 @@
 
 <br>
 <Center>
-<img src="https://raw.githubusercontent.com/AcxTechSistemas/pix_bb/main/images/product-screenshot.png" alt="Pix Banco do Brasil PNG" width="400">
+<img src="https://raw.githubusercontent.com/AcxTechSistemas/pix_bb/main/images/product-screenshot.png" alt="Pix Banco do Brasil PNG" width=200>
 </Center>
 
 <br>

@@ -43,7 +43,8 @@ void main() {
     }
   });
 
-  test('Expect receive errorType PixError on getRecentReceivedTransactions', () async {
+  test('Expect receive errorType PixError on getRecentReceivedTransactions',
+      () async {
     when(() => client.get(
           any(),
           headers: any(named: 'headers'),
@@ -99,8 +100,7 @@ void main() {
   });
 }
 
-const jsonResponse =
-    '''
+const jsonResponse = '''
 {
     "pix": [
         {
