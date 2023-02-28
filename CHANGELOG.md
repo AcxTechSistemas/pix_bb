@@ -9,8 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 # Unreleased
 ## Added
 
-- Integration with the Banco do Brasil's Pix API.
-- Easy-to-use interface for retrieving transaction information in Flutter apps.
+- First Tag Release
 
 ## Changed
 
@@ -23,7 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Fixed
 - No issues fixed yet.
 
-## 0.1.0 - 2023-02-28
+## 0.1.1 - 2023-02-28
 
 ### Added
 - Initial release of bb_pix.
