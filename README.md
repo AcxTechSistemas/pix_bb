@@ -7,7 +7,7 @@
 <br />
 <div align="center">
   <a href="https://pub.dev/packages/pix_bb">
-    <img src="https://raw.githubusercontent.com/AcxTechSistemas/pix_bb/main/images/package-logo.png" alt="Logo" >
+    <img src="https://raw.githubusercontent.com/AcxTechSistemas/pix_bb/main/images/package-logo.png" alt="Logo" width="600">
   </a>
 
   <p align="center">
