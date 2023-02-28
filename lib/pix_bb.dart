@@ -7,16 +7,49 @@ import 'src/models/token_body.dart';
 import 'src/services/dio_client.dart';
 export './pix_bb.dart';
 
+/// A library that provides functionality to interact with the Pix API of Banco do Brasil.
+///
+/// This library contains classes to request and retrieve information about Pix transactions, including receiving recent transactions
+/// and transactions within a given date range.
+///
+/// The [PixBB] class is the main class of this library and provides methods to request tokens and transaction data. It requires the following parameters:
+/// - [_client]: an instance of [DioClient] used to make requests to the API.
+/// - [_tokenUrl]: a [String] representing the URL to request a token for the API.
+/// - [_apiUrl]: a [String] representing the base URL for the Pix API.
+///
+/// To use this library, import it and create an instance of the [PixBB] class with the necessary parameters. Call the appropriate methods to request the desired information.
+///
+/// Example:
+/// ```dart
+/// import 'package:pix_bb/pix_bb.dart';
+///
+/// final pixbb = PixBB();
+///
+/// final token = await pixbb.getToken(basicKey: 'my_basic_key');
+///
+/// final recentTransactions = await pixbb.getRecentReceivedTransactions(accessToken: token.accessToken, developerApplicationKey: 'my_dev_key');
+/// ```
 class PixBB {
   final _client = DioClient();
   final _tokenUrl = 'https://oauth.bb.com.br/oauth/token';
   final _apiUrl = 'https://api.bb.com.br/pix/v1';
 
+  /// Requests a token for the Pix API with the provided [basicKey].
+  ///
+  /// This method creates an instance of [TokenRepository] and uses it to request a token with the given [basicKey].
+  ///
+  /// Returns a [Future] with a [Token] object that contains the access token and its expiration time.
   Future<Token> getToken({required String basicKey}) {
     final repository = TokenRepository(_client, _tokenUrl);
     return repository.getToken(basicKey: basicKey);
   }
 
+  /// Requests a list of recent received transactions from the Pix API.
+  ///
+  /// This method creates an instance of [PixRepository] and uses it to request a list of the most recent received transactions.
+  /// The [accessToken] and [developerApplicationKey] parameters are required to authenticate the request.
+  ///
+  /// Returns a [Future] with a list of [Pix] objects representing the received transactions.
   Future<List<Pix>> getRecentReceivedTransactions({
     required String accessToken,
     required String developerApplicationKey,
@@ -28,6 +61,13 @@ class PixBB {
     );
   }
 
+  /// Requests a list of transactions from the Pix API within the specified date range.
+  ///
+  /// This method creates an instance of [PixRepository] and uses it to request a list of transactions within the specified date range.
+  /// The [accessToken] and [developerApplicationKey] parameters are required to authenticate the request.
+  /// The [initialDate] and [finalDate] parameters are required to specify the date range for the requested transactions.
+  ///
+  /// Returns a [Future] with a list of [Pix] objects representing the transactions within the specified date range.
   Future<List<Pix>> getTransactionsByDate({
     required String accessToken,
     required String developerApplicationKey,
