@@ -76,7 +76,7 @@ class PixRepository {
         error: 1001,
       );
       throw PixError(
-        exception: DateException(
+        dateException: DateException(
           message:
               'Difference between start date and end date cannot be greater than 4 days',
           errorCode: 1001,

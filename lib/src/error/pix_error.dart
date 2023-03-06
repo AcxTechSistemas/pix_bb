@@ -10,12 +10,7 @@ class PixError implements PixErrorInterface {
   final DateException? _dateException;
 
   PixError({Object? exception, DateException? dateException})
-      : assert(
-          (exception == null && dateException != null) ||
-              (exception != null && dateException == null),
-          'Only one of _exception or _dateException should be provided.',
-        ),
-        _exception = exception,
+      : _exception = exception,
         _dateException = dateException;
 
   /// Returns the error message.
