@@ -39,8 +39,8 @@ class TokenRepository {
         queryParameters: queryParameters,
       );
       return Token.fromJson(response);
-    } on DioError catch (e) {
-      throw PixError(dioError: e);
+    } catch (e) {
+      throw PixError(exception: e);
     }
   }
 }

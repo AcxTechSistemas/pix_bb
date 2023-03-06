@@ -1,3 +1,4 @@
+/// This library provides a Flutter API for accessing the BB PIX API.
 library pix_bb;
 
 import 'package:pix_bb/src/repositories/pix_repository.dart';
@@ -6,48 +7,38 @@ import 'src/models/pix.dart';
 import 'src/models/token_body.dart';
 import 'src/services/dio_client.dart';
 export './pix_bb.dart';
+export 'src/error/pix_error.dart';
+export 'src/models/pix.dart';
 
+/// Represents the environment (production or homologation) where the API calls will be made.
 enum Ambiente {
   producao,
   homologacao,
 }
 
-/// A library that provides functionality to interact with the Pix API of Banco do Brasil.
-///
-/// This library contains classes to request and retrieve information about Pix transactions, including receiving recent transactions
-/// and transactions within a given date range.
-///
-/// The [PixBB] class is the main class of this library and provides methods to request tokens and transaction data. It requires the following parameters:
-/// - [_client]: an instance of [DioClient] used to make requests to the API.
-/// - [_tokenUrl]: a [String] representing the URL to request a token for the API.
-/// - [_apiUrl]: a [String] representing the base URL for the Pix API.
-/// - [ambiente] a [Ambiente] representing which url will be defined in the request
-/// - [Ambiente.homologacao] representing that the url that will be used in the request will be for the approval environment
-/// - [Ambiente.producao] representing that the url that will be used in the request will be for the production environment
-/// - By default the environment is set to production
-///
-/// To use this library, import it and create an instance of the [PixBB] class with the necessary parameters. Call the appropriate methods to request the desired information.
-///
-/// Example:
-/// ```dart
-/// import 'package:pix_bb/pix_bb.dart';
-///
-/// final pixbb = PixBB();
-///
-/// final token = await pixbb.getToken(basicKey: 'my_basic_key');
-///
-/// final recentTransactions = await pixbb.getRecentReceivedTransactions(accessToken: token.accessToken, developerApplicationKey: 'my_dev_key');
-/// ```
+/// Provides methods for accessing the BB PIX API.
 class PixBB {
   final Ambiente ambiente;
+  final String basicKey;
+  final String appDevKey;
   final _client = DioClient();
   late String _tokenUrl;
   late String _apiUrl;
 
-  PixBB({this.ambiente = Ambiente.producao}) {
+  /// Creates a new instance of the [PixBB] class.
+  ///
+  /// The [ambiente] parameter specifies the environment (production or homologation) where the API calls will be made.
+  /// The [basicKey] parameter specifies the basic key used to authenticate the requests.
+  /// The [appDevKey] parameter specifies the application developer key used to authenticate the requests.
+  PixBB({
+    this.ambiente = Ambiente.producao,
+    required this.basicKey,
+    required this.appDevKey,
+  }) {
     _changeAmbiente();
   }
 
+  /// Sets the token and API URLs according to the specified environment.
   _changeAmbiente() {
     switch (ambiente) {
       case Ambiente.producao:
@@ -61,50 +52,41 @@ class PixBB {
     }
   }
 
-  /// Requests a token for the Pix API with the provided [basicKey].
+  /// Retrieves a new access token from the API.
   ///
-  /// This method creates an instance of [TokenRepository] and uses it to request a token with the given [basicKey].
-  ///
-  /// Returns a [Future] with a [Token] object that contains the access token and its expiration time.
-  Future<Token> getToken({required String basicKey}) {
+  /// The [basicKey] parameter specifies the basic key used to authenticate the request.
+  Future<Token> getToken() {
     final repository = TokenRepository(_client, _tokenUrl);
     return repository.getToken(basicKey: basicKey);
   }
 
-  /// Requests a list of recent received transactions from the Pix API.
+  /// Retrieves a list of recent received transactions from the API.
   ///
-  /// This method creates an instance of [PixRepository] and uses it to request a list of the most recent received transactions.
-  /// The [accessToken] and [developerApplicationKey] parameters are required to authenticate the request.
-  ///
-  /// Returns a [Future] with a list of [Pix] objects representing the received transactions.
+  /// The [accessToken] parameter specifies the access token used to authenticate the request.
   Future<List<Pix>> getRecentReceivedTransactions({
     required String accessToken,
-    required String developerApplicationKey,
   }) {
     final repository = PixRepository(_client, _apiUrl);
     return repository.getRecentReceivedTransactions(
       accessToken: accessToken,
-      developerApplicationKey: developerApplicationKey,
+      developerApplicationKey: appDevKey,
     );
   }
 
-  /// Requests a list of transactions from the Pix API within the specified date range.
+  /// Retrieves a list of transactions within the specified date range from the API.
   ///
-  /// This method creates an instance of [PixRepository] and uses it to request a list of transactions within the specified date range.
-  /// The [accessToken] and [developerApplicationKey] parameters are required to authenticate the request.
-  /// The [initialDate] and [finalDate] parameters are required to specify the date range for the requested transactions.
-  ///
-  /// Returns a [Future] with a list of [Pix] objects representing the transactions within the specified date range.
+  /// The [accessToken] parameter specifies the access token used to authenticate the request.
+  /// The [initialDate] parameter specifies the initial date of the range.
+  /// The [finalDate] parameter specifies the final date of the range.
   Future<List<Pix>> getTransactionsByDate({
     required String accessToken,
-    required String developerApplicationKey,
     required DateTime initialDate,
     required DateTime finalDate,
   }) {
     final repository = PixRepository(_client, _apiUrl);
     return repository.getTransactionsByDate(
       accessToken: accessToken,
-      developerApplicationKey: developerApplicationKey,
+      developerApplicationKey: appDevKey,
       initialDate: initialDate,
       finalDate: finalDate,
     );

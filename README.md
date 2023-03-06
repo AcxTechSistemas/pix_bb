@@ -1,6 +1,5 @@
 <a name="readme-top"></a>
 
-
 <h1 align="center">Pix BB - Easy to use interface for integrating with Banco do Brasil's Pix API in your Flutter Apps.</h1>
 
 <!-- PROJECT LOGO -->
@@ -33,6 +32,7 @@
 [![Forks](https://img.shields.io/github/forks/AcxTechSistemas/pix_bb?color=yellowgreen&logo=github&style=plastic)](https://github.com/AcxTechSistemas/pix_bb/graphs/contributors)
 
 [![Pub Publisher](https://img.shields.io/pub/publisher/pix_bb?style=plastic)](https://pub.dev/publishers/acxtech.com.br/packages)
+
 </div>
 <br>
 
@@ -53,6 +53,7 @@
 <br>
 
 <!-- ABOUT THE PROJECT -->
+
 ## About The Project
 
 <br>
@@ -64,12 +65,12 @@
 
 This package offers an easy-to-use interface for integrating with Banco do Brasil's Pix API. With this package, you can get transaction information quickly and efficiently in your Flutter apps.
 
-
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- GETTING STARTED -->
 
 ## Pre Requirements
+
 - Key Pix registered with Banco do Brasil
 - Exclusive for legal entities
 - Registration on the [BB Developers Portal](https://developers.bb.com.br/conheca-o-portal)
@@ -78,82 +79,88 @@ This package offers an easy-to-use interface for integrating with Banco do Brasi
 
 To install This package in your project you can follow the instructions below:
 
-
 a) Add in your pubspec.yaml:
-   ```sh
-    dependencies:
-       pix_bb: <last-version>
-   ```
-   
-b)    or use:
-   ```sh
-    dart pub add pix_bb
-   ```
+
+```sh
+ dependencies:
+    pix_bb: <last-version>
+```
+
+b) or use:
+
+```sh
+ dart pub add pix_bb
+```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- USAGE EXAMPLES -->
+
 ## How To Use
 
 This package is ready for get transactions information quickly!
 
+First instantiate the class passing the appropriate parameters
+
 ```Dart
-// For homologation environment, define the "environment" parameter with Ambiente.homologacao
-// Example PixBB(ambiente: Ambiente.homologacao);
-//By default, the initial environment is defined as the production one.
 
-final pixBB = PixBB(); 
+final pixBB = PixBB(
+  ambiente: Ambiente.homologacao,
+   // Optional, By default, the initial environment is defined as the production
+  basicKey:'BASIC_KEY',
+  appDevKey: 'APP_DEV_KEY',
+);
+```
 
-// Make a request to the API with request a list of transactions received from the last 4 days
+Make a request to the API with request a list of transactions received from the last 4 days
 
+```dart
+    await pixBB.getToken().then((token) {
+      pixBB
+          .getRecentReceivedTransactions(accessToken: token.accessToken)
+          .then((response) {
+        print(response);
+      }).catchError((e) {
+        print('${e.errorCode} , ${e.errorMessage} , ${e.errorData}');
+      });
+    });
+```
 
-await pixBB.getToken(basicKey: basicKey).then(
-(token) => pixBB.getRecentReceivedTransactions(
-  accessToken: token.accessToken,
-  developerApplicationKey: developerApplicationKey,
-),
-).then((response) {
-  print(response); // it's a List<Pix>.
-}).catchError((error) {
-  print(error); // It's a PixError.
-});
+Make a request for a list of transactions as of a specific date
 
+//Attention!, the maximum difference in days between the start and end date must be 4 days
 
-
-// Request a list of transactions as of a specific date
-
-//Attention!, the maximum difference in days between the start and end date must be 4 days    
-
-
-await pixBB.getToken(basicKey: basicKey).then(
-(token) => pixBB.getTransactionsByDate(
-  accessToken: token.accessToken,
-  developerApplicationKey: developerApplicationKey,
-  initialDate: DateTime.now().subtract(const Duration(days: 6)),
-  finalDate: DateTime.now(),
-),
-).then((response) {
-  print(response); // it's a List<Pix>.
-}).catchError((error) {
-  print(error); // It's a PixError.
-});
+```dart
+    await pixBB.getToken().then((token) {
+      pixBB
+          .getTransactionsByDate(
+        accessToken: token.accessToken,
+        initialDate: DateTime.now().subtract(const Duration(days: 4)),
+        finalDate: DateTime.now(),
+      )
+          .then((response) {
+        print(response);// it's a List<Pix>.
+      }).catchError((e) {
+         print('${e.errorCode} , ${e.errorMessage} , ${e.errorData}');  // It's a PixError.
+      });
+    });
 
 ```
 
 _For more examples, please refer to the_ [Documentation](https://pub.dev/documentation/pix_bb/latest/)
 
-
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
-
 <!-- ROADMAP -->
+
 ## Features
+
 - ✅ Queries
   - ✅ Get Recent Transactions
   - ✅ Get Transactions By Date
 
 ---
+
 - 🚧 Dynamic QR Code configuration: Creation of Pix billing with unique identification;
 - 🚧 Receipt Verification: Status verification of generated charges;
 - 🚧 Review: Allows you to change the generated billing data;
@@ -163,52 +170,49 @@ _For more examples, please refer to the_ [Documentation](https://pub.dev/documen
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-****
+---
+
 ## Use cases
 
 **Request an access token**
 
 Request a token
 
-```Dart
-accessToken = await bb.getToken(basicKey: 'BASIC_KEY');
+```dart
+accessToken = await pixBB.getToken();
 ```
 
 **Get recent trasactions**
 
 Request a list of transactions received from the last 4 days
 
-```Dart
-await getRecentReceivedTransactions(
-        accessToken: accessToken,
-        developerApplicationKey: 'DEV_APP_KEY',
-      );
+```dart
+await getRecentReceivedTransactions(accessToken: ccessToken);
 ```
 
 **Get transactions by date**
 
 Request a list of transactions as of a specific date
 
-⚠️ Attention  the maximum difference in days between the start and end date must be 4 days ⚠️
+⚠️ Attention the maximum difference in days between the start and end date must be 4 days ⚠️
 
-```Dart
+```dart
 await getTransactionsByDate(
+        accessToken: accessToken,
         initialDate: DateTime.now().subtract(const Duration(days: 4)),
         finalDate: DateTime.now(),
-        accessToken: accessToken,
-        developerApplicationKey: 'DEV_APP_KEY',
       );
 ```
 
-
 <!-- CONTRIBUTING -->
+
 ## Contributing
 
 🚧 [Contributing Guidelines](https://github.com/angular/angular/blob/main/CONTRIBUTING.md) - Currently being updated 🚧
 
 Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
-If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the appropriate tag. 
+If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the appropriate tag.
 Don't forget to give the project a star! Thanks again!
 
 1. Fork the Project
@@ -217,20 +221,17 @@ Don't forget to give the project a star! Thanks again!
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-Remember to include a tag, and to follow [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) and [Semantic Versioning](https://semver.org/) when uploading your commit and/or creating the issue. 
+Remember to include a tag, and to follow [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) and [Semantic Versioning](https://semver.org/) when uploading your commit and/or creating the issue.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
-
 <!-- LICENSE -->
+
 ## License
 
 Distributed under the MIT `LICENSE.txt` for more information.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
 
 <!-- CONTACT
 ## Contact
@@ -242,10 +243,10 @@ AcxTech Sistemas
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p> -->
 
-
-
 <!-- ACKNOWLEDGMENTS -->
+
 ## Aknowledgements
+
 Thank you to all the people who contributed to this project, whithout you this project would not be here today.
 
 <a href="https://github.com/AcxTechSistemas/pix_bb/graphs/contributors">

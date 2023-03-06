@@ -6,21 +6,57 @@ import 'pix_error_interface.dart';
 ///related to the Pix API requests. It contains a DioError object and a DateException object,
 ///which can be used to retrieve error details such as message, error code and error data.
 class PixError implements PixErrorInterface {
-  final DioError? dioError;
-  final DateException? exception;
+  final Object? _exception;
+  final DateException? _dateException;
 
-  PixError({this.dioError, this.exception});
+  PixError({Object? exception, DateException? dateException})
+      : assert(
+          (exception == null && dateException != null) ||
+              (exception != null && dateException == null),
+          'Only one of _exception or _dateException should be provided.',
+        ),
+        _exception = exception,
+        _dateException = dateException;
 
   /// Returns the error message.
   @override
-  String? get message => dioError?.message ?? exception?.message;
+  String? get errorMessage {
+    late DioError dioError;
+    if (_exception != null && _exception is DioError) {
+      dioError = _exception as DioError;
+      return dioError.message;
+    } else if (_dateException != null) {
+      return _dateException?.message ?? '';
+    } else {
+      return null;
+    }
+  }
 
   /// Returns the error code.
   @override
-  int? get errorCode => dioError?.response?.statusCode ?? exception?.errorCode;
+  int? get errorCode {
+    late DioError dioError;
+    if (_exception != null && _exception is DioError) {
+      dioError = _exception as DioError;
+      return dioError.response?.statusCode;
+    } else if (_dateException != null) {
+      return _dateException?.errorCode;
+    } else {
+      return null;
+    }
+  }
 
   /// Returns the error data as a map.
   @override
-  Map<String, dynamic>? get errorData =>
-      dioError?.response?.data ?? exception?.errorData;
+  Map<String, dynamic>? get errorData {
+    late DioError dioError;
+    if (_exception != null && _exception is DioError) {
+      dioError = _exception as DioError;
+      return dioError.response?.data;
+    } else if (_dateException != null) {
+      return _dateException?.errorData;
+    } else {
+      return null;
+    }
+  }
 }

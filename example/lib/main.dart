@@ -27,10 +27,12 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-final pixBB = PixBB(ambiente: Ambiente.homologacao);
-const basicKey =
-    'Basic ZXlKcFpDSTZJalU1TkRrek56Z3RaamhqWWlJc0ltTnZaR2xuYjFCMVlteHBZMkZrYjNJaU9qQXNJbU52WkdsbmIxTnZablIzWVhKbElqbzBPVFEzT0N3aWMyVnhkV1Z1WTJsaGJFbHVjM1JoYkdGallXOGlPakY5OmV5SnBaQ0k2SWpGbU4yTmpaRFF0TW1OaFl5MGlMQ0pqYjJScFoyOVFkV0pzYVdOaFpHOXlJam93TENKamIyUnBaMjlUYjJaMGQyRnlaU0k2TkRrME56Z3NJbk5sY1hWbGJtTnBZV3hKYm5OMFlXeGhZMkZ2SWpveExDSnpaWEYxWlc1amFXRnNRM0psWkdWdVkybGhiQ0k2TVN3aVlXMWlhV1Z1ZEdVaU9pSm9iMjF2Ykc5bllXTmhieUlzSW1saGRDSTZNVFkyT1RJek5qUXhNRGN4Tlgw';
-const developerApplicationKey = 'd27b077902ffabb0136ee17d10050056b961a5bc';
+final pixBB = PixBB(
+  ambiente: Ambiente.homologacao,
+  basicKey:
+      'Basic ZXlKcFpDSTZJamMzWlRka01tUXRNak14TUMwME9UUTBJaXdpWTI5a2FXZHZVSFZpYkdsallXUnZjaUk2TUN3aVkyOWthV2R2VTI5bWRIZGhjbVVpT2pVMU9URXhMQ0p6WlhGMVpXNWphV0ZzU1c1emRHRnNZV05oYnlJNk1YMDpleUpwWkNJNklqZGtOV1l4T1dJdFkySTROeTAwWkRCbUxUaGtaV010T1RVMk4yVXlaaUlzSW1OdlpHbG5iMUIxWW14cFkyRmtiM0lpT2pBc0ltTnZaR2xuYjFOdlpuUjNZWEpsSWpvMU5Ua3hNU3dpYzJWeGRXVnVZMmxoYkVsdWMzUmhiR0ZqWVc4aU9qRXNJbk5sY1hWbGJtTnBZV3hEY21Wa1pXNWphV0ZzSWpveExDSmhiV0pwWlc1MFpTSTZJbWh2Ylc5c2IyZGhZMkZ2SWl3aWFXRjBJam94TmpjM05EY3dOVFUwTVRjNGZR',
+  appDevKey: '65a4f02e75e68dfbe07b35326a318fe9',
+);
 
 class _HomePageState extends State<HomePage> {
   @override
@@ -40,10 +42,9 @@ class _HomePageState extends State<HomePage> {
         title: const Text('Api Pix V1 Banco do Brasil'),
       ),
       body: FutureBuilder(
-        future: pixBB.getToken(basicKey: basicKey).then(
+        future: pixBB.getToken().then(
               (token) => pixBB.getRecentReceivedTransactions(
                 accessToken: token.accessToken,
-                developerApplicationKey: developerApplicationKey,
               ),
             ),
         builder: (context, snapshot) {
@@ -56,17 +57,22 @@ class _HomePageState extends State<HomePage> {
               if (snapshot.hasData) {
                 int length = snapshot.data!.length;
 
-                return ListView.builder(
-                  itemCount: length,
-                  itemBuilder: (context, index) {
-                    var transaction = snapshot.data![index];
-
-                    return ListTile(
-                      title: Text(transaction.pagador.nome.split(' ')[0]),
-                      subtitle: Text(transaction.valor),
-                      trailing: Text(transaction.horario),
-                    );
+                return RefreshIndicator(
+                  onRefresh: () {
+                    return Future(() => setState(() {}));
                   },
+                  child: ListView.builder(
+                    itemCount: length,
+                    itemBuilder: (context, index) {
+                      var transaction = snapshot.data![index];
+
+                      return ListTile(
+                        title: Text(transaction.pagador.nome.split(' ')[0]),
+                        subtitle: Text(transaction.valor),
+                        trailing: Text(transaction.horario),
+                      );
+                    },
+                  ),
                 );
               }
               return const Center(

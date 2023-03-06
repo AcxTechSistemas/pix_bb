@@ -160,8 +160,8 @@ class PixRepository {
         queryParameters: queryParameters,
       );
       return response;
-    } on DioError catch (e) {
-      throw PixError(dioError: e);
+    } catch (e) {
+      throw PixError(exception: e);
     }
   }
 }
