@@ -119,9 +119,9 @@ Make a request to the API with request a list of transactions received from the 
       pixBB
           .getRecentReceivedTransactions(accessToken: token.accessToken)
           .then((response) {
-        print(response);
+        print(response); // it's a List<Pix>.
       }).catchError((e) {
-        print('${e.errorCode} , ${e.errorMessage} , ${e.errorData}');
+        print('${e.errorCode} , ${e.errorMessage} , ${e.errorData}'); // It's a PixError.
       });
     });
 ```
