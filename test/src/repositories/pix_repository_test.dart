@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pix_bb/src/error/date_exception.dart';
@@ -49,7 +50,7 @@ void main() {
           any(),
           headers: any(named: 'headers'),
           queryParameters: any(named: 'queryParameters'),
-        )).thenThrow(PixError());
+        )).thenThrow(PixError(exception: DioError));
     try {
       await repository.getRecentReceivedTransactions(
         accessToken: '',
@@ -69,14 +70,14 @@ void main() {
         )).thenAnswer((_) async => jsonDecode(jsonResponse));
     try {
       final response = await repository.getTransactionsByDate(
-        initialDate: DateTime.now().subtract(const Duration(days: 6)),
+        initialDate: DateTime.now().subtract(const Duration(days: 4)),
         finalDate: DateTime.now(),
         accessToken: accessToken,
         developerApplicationKey: developerApplicationKey,
       );
       expect(response, isA<List<Pix>>());
     } on PixError catch (e) {
-      expect(e, isA<PixError>());
+      fail('Expected List Transactions Pix received: $e');
     }
   });
 
@@ -85,7 +86,7 @@ void main() {
           any(),
           headers: any(named: 'headers'),
           queryParameters: any(named: 'queryParameters'),
-        )).thenThrow(PixError(exception: dateException));
+        )).thenThrow(PixError(dateException: dateException));
     try {
       await repository.getTransactionsByDate(
         accessToken: '',

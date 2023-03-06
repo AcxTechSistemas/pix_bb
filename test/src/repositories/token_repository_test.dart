@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pix_bb/src/error/pix_error.dart';
@@ -36,10 +37,12 @@ void main() {
 
   test('Expect receive PixError', () async {
     when(() => client.post(
-          any(),
-          headers: any(named: 'headers'),
-          queryParameters: any(named: 'queryParameters'),
-        )).thenThrow(PixError());
+              any(),
+              headers: any(named: 'headers'),
+              queryParameters: any(named: 'queryParameters'),
+            ))
+        .thenThrow(
+            PixError(exception: DioError(requestOptions: RequestOptions())));
     try {
       await repository.getToken(basicKey: '');
       fail('Expected PixError to be thrown');
