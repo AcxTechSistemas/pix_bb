@@ -8,30 +8,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 # Unreleased
 
-## 0.1.6 - 2023-02-28
+## 0.1.7 - 2023-02-28
 
 ## Changed
 
-- It will no longer be necessary to pass the basicKey and the appDevKey to the getTransactionsByDate and getRecentTransactions methods, These parameters are now required when instantiating the PixBB class.
-
-Example:
-
-```dart
-final pixBB = PixBB(
-  ambiente: Ambiente.homologacao,
-  basicKey:'BASIC_KEY',
-  appDevKey: 'APP_DEV_KEY',
-);
-```
+- Not changed yet
 
 ## Removed
 
-- Removed the need to pass the: basicKey and the appDevKey to the getTransactionsByDate and getRecentTransactions methods
+- Not removed yet
 
 ## Added
 
-- Improved documentation comments.
+- Not Added yet
 
 ## Fixed
 
-- Fixed image size
+- Fixed Test Erros
