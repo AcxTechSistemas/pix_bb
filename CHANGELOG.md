@@ -1,27 +1,27 @@
-# Changelog
+## [1.0.0] - 25-03-2023
 
-All notable changes to this project will be documented in this file.
+- Defined the architecture of the project
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+## Breaking Changes
 
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+- Improvements were made to the method for querying received transactions see the docs for more information
 
-# Unreleased
+- Changed variable name in PixBB Instantiate :
 
-## 0.1.7 - 2023-02-28
+  - dev_app_key => developerApplicationKey
 
-## Changed
-
-- Not changed yet
-
-## Removed
-
-- Not removed yet
-
-## Added
-
-- Not Added yet
-
-## Fixed
-
-- Fixed Test Erros
+- Changed the way to use the fetchTransaction method:
+  - Before
+  ```dart
+  pixBB.getToken().then(
+            (token) => pixBB.fetchRecentReceivedTransactions(
+              accessToken: token.accessToken,
+            );
+  ```
+  - Afeter
+  ```dart
+  pixBB.getToken().then(
+              (token) => pixBB.fetchTransactions(
+                token: token,
+              ),
+  ```

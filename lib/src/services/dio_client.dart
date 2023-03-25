@@ -1,49 +1,75 @@
 import 'package:dio/dio.dart';
+import 'package:pix_bb/src/errors/bb_api_exception.dart';
+import 'package:pix_bb/src/errors/bb_http_exceptions.dart';
+import 'package:pix_bb/src/errors/pix_exception_interface.dart';
 import 'package:pix_bb/src/services/client_service.dart';
+import 'package:result_dart/result_dart.dart';
 
-/// A class representing a [Dio] client that implements the [ClientService] interface.
-///
-/// The [DioClient] class provides HTTP methods for making requests and receiving responses from the Pix API. It requires the Dio package to be imported.
+/// A client service that uses Dio HTTP client to perform HTTP GET and POST requests.
 class DioClient implements ClientService {
   final dio = Dio();
 
-  /// Sends an HTTP GET request to the specified [url] with optional [headers] and [queryParameters], and returns the response body as a [Map] of [String] keys to dynamic values.
+  /// Sends an HTTP GET request to the specified URL.
   ///
-  /// If [headers] or [queryParameters] are not specified, they will default to null.
+  /// Returns a `Result` object containing the response body as a map if the request is successful,
+  /// or a `PixException` if an error occurs.
   ///
-  /// Throws a [DioError] if the request fails.
+  /// The optional `headers` and `queryParameters` parameters can be used to pass additional
+  /// headers and query parameters to the request.
   @override
-  Future<Map<String, dynamic>> get(
+  Future<Result<Map<String, dynamic>, PixException>> get(
     String url, {
     Map<String, String>? headers,
     Map<String, String>? queryParameters,
   }) async {
-    final options = Options(headers: headers);
-    final response = await dio.get(
-      url,
-      options: options,
-      queryParameters: queryParameters,
-    );
-    return response.data;
+    try {
+      final options = Options(headers: headers);
+      final response = await dio.get(
+        url,
+        options: options,
+        queryParameters: queryParameters,
+      );
+      return Success(response.data);
+    } on DioError catch (e) {
+      if (e.response?.data != null) {
+        return Failure(BBApiException.apiError(e.response!.data));
+      } else {
+        return Failure(BBHttpException.httpException(e.message));
+      }
+    } catch (e) {
+      return Failure(BBHttpException.httpException(e));
+    }
   }
 
-  /// Sends an HTTP POST request to the specified [url] with optional [headers] and [queryParameters], and returns the response body as a [Map] of [String] keys to dynamic values.
+  /// Sends an HTTP POST request to the specified URL.
   ///
-  /// If [headers] or [queryParameters] are not specified, they will default to null.
+  /// Returns a `Result` object containing the response body as a map if the request is successful,
+  /// or a `PixException` if an error occurs.
   ///
-  /// Throws a [DioError] if the request fails.
+  /// The optional `headers` and `queryParameters` parameters can be used to pass additional
+  /// headers and query parameters to the request.
   @override
-  Future<Map<String, dynamic>> post(
+  Future<Result<Map<String, dynamic>, PixException>> post(
     String url, {
     Map<String, String>? headers,
     Map<String, String>? queryParameters,
   }) async {
-    final options = Options(headers: headers);
-    final response = await dio.post(
-      url,
-      options: options,
-      queryParameters: queryParameters,
-    );
-    return response.data;
+    try {
+      final options = Options(headers: headers);
+      final response = await dio.post(
+        url,
+        options: options,
+        queryParameters: queryParameters,
+      );
+      return Success(response.data);
+    } on DioError catch (e) {
+      if (e.response?.data != null) {
+        return Failure(BBApiException.apiError(e.response!.data));
+      } else {
+        return Failure(BBHttpException.httpException(e.message));
+      }
+    } catch (e) {
+      return Failure(BBHttpException.httpException(e));
+    }
   }
 }

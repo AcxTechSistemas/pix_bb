@@ -27,14 +27,18 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-final pixBB = PixBB(
-  ambiente: Ambiente.homologacao,
-  basicKey:
-      'Basic ZXlKcFpDSTZJamMzWlRka01tUXRNak14TUMwME9UUTBJaXdpWTI5a2FXZHZVSFZpYkdsallXUnZjaUk2TUN3aVkyOWthV2R2VTI5bWRIZGhjbVVpT2pVMU9URXhMQ0p6WlhGMVpXNWphV0ZzU1c1emRHRnNZV05oYnlJNk1YMDpleUpwWkNJNklqZGtOV1l4T1dJdFkySTROeTAwWkRCbUxUaGtaV010T1RVMk4yVXlaaUlzSW1OdlpHbG5iMUIxWW14cFkyRmtiM0lpT2pBc0ltTnZaR2xuYjFOdlpuUjNZWEpsSWpvMU5Ua3hNU3dpYzJWeGRXVnVZMmxoYkVsdWMzUmhiR0ZqWVc4aU9qRXNJbk5sY1hWbGJtTnBZV3hEY21Wa1pXNWphV0ZzSWpveExDSmhiV0pwWlc1MFpTSTZJbWh2Ylc5c2IyZGhZMkZ2SWl3aWFXRjBJam94TmpjM05EY3dOVFUwTVRjNGZR',
-  appDevKey: '65a4f02e75e68dfbe07b35326a318fe9',
-);
-
 class _HomePageState extends State<HomePage> {
+  late PixBB pixBB;
+  @override
+  void initState() {
+    super.initState();
+    pixBB = PixBB(
+      ambiente: Ambiente.producao,
+      basicKey: '',
+      developerApplicationKey: '',
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,8 +47,12 @@ class _HomePageState extends State<HomePage> {
       ),
       body: FutureBuilder(
         future: pixBB.getToken().then(
-              (token) => pixBB.getRecentReceivedTransactions(
-                accessToken: token.accessToken,
+              (token) => pixBB.fetchTransactions(
+                token: token,
+                dateTimeRange: DateTimeRange(
+                  start: DateTime.now().subtract(const Duration(days: 4)),
+                  end: DateTime.now(),
+                ),
               ),
             ),
         builder: (context, snapshot) {
@@ -54,7 +62,7 @@ class _HomePageState extends State<HomePage> {
             case ConnectionState.active:
               return const Center(child: CircularProgressIndicator());
             case ConnectionState.done:
-              if (snapshot.hasData) {
+              if (snapshot.hasData && snapshot.data!.isNotEmpty) {
                 int length = snapshot.data!.length;
 
                 return RefreshIndicator(
@@ -74,6 +82,16 @@ class _HomePageState extends State<HomePage> {
                     },
                   ),
                 );
+              } else if (snapshot.hasError) {
+                if (snapshot.error is PixException) {
+                  final error = snapshot.error;
+                  final errorMessage = error is PixException
+                      ? error.message
+                      : snapshot.error.toString();
+                  return Center(
+                    child: Text(errorMessage),
+                  );
+                }
               }
               return const Center(
                 child: Text('Nenhuma transação encontrada'),
