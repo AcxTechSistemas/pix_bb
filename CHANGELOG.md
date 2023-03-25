@@ -1,3 +1,7 @@
+## [1.0.1] - 25-03-2023
+
+- Fix Readme typing errors
+
 ## [1.0.0] - 25-03-2023
 
 ### This release generated BREAKING CHANGES see the docs!

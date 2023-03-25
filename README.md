@@ -146,9 +146,8 @@ First instantiate the class passing the appropriate parameters
 
 final pixBB = PixBB(
   ambiente: Ambiente.homologacao,
-   // Optional, By default, the initial environment is defined as the production
   basicKey:'BASIC_KEY',
-  appDevKey: 'APP_DEV_KEY',
+  applicationDeveloperKey: 'APP_DEV_KEY',
 );
 ```
 
@@ -157,34 +156,16 @@ Make a request to the API with request a list of transactions received from the 
 ```dart
     await pixBB.getToken().then((token) {
       pixBB
-          .getRecentReceivedTransactions(accessToken: token.accessToken)
+          .fetchTransactions(token: token)
           .then((response) {
         print(response); // it's a List<Pix>.
       }).catchError((e) {
-        print('${e.errorCode} , ${e.errorMessage} , ${e.errorData}'); // It's a PixError.
+        print(e);
+        // It's a PixException.
+        //This package provides several ways to handle errors that may occur.
+        //see the docs!
       });
     });
-```
-
-Make a request for a list of transactions as of a specific date
-
-//Attention!, the maximum difference in days between the start and end date must be 4 days
-
-```dart
-    await pixBB.getToken().then((token) {
-      pixBB
-          .getTransactionsByDate(
-        accessToken: token.accessToken,
-        initialDate: DateTime.now().subtract(const Duration(days: 4)),
-        finalDate: DateTime.now(),
-      )
-          .then((response) {
-        print(response);// it's a List<Pix>.
-      }).catchError((e) {
-         print('${e.errorCode} , ${e.errorMessage} , ${e.errorData}');  // It's a PixError.
-      });
-    });
-
 ```
 
 _For more examples, please refer to the_ [Documentation](https://pub.dev/documentation/pix_bb/latest/)
