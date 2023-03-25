@@ -61,11 +61,11 @@ void main() {
         url: url,
         basicKey: basicKey,
       );
-      var result = response.exceptionOrNull();
+      var result = response.exceptionOrNull() as BBApiException;
 
       expect(result, isA<BBApiException>());
-      expect(result!.message, isNotNull);
-      expect(result.message, contains('error'));
+      expect(result.message, isNotNull);
+      expect(result.errorData, contains('error'));
     });
   });
 }

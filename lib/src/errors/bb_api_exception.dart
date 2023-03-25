@@ -28,10 +28,10 @@ class BBApiException implements PixException {
 
   /// The error message returned by the API.
   @override
-  dynamic get message => _error;
+  String get message => _error;
 
   /// The error message returned by the API.
-  dynamic get errorData => _errorData;
+  Map<String, dynamic> get errorData => _errorData;
 
   /// The type of exception, which in this case is always [ApiErrorType.apiErrorType].
   @override
