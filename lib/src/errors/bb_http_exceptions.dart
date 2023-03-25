@@ -19,9 +19,11 @@ class BBHttpException implements PixException {
   })  : _error = error,
         _type = type;
 
+  /// Exception to represent a http-related type.
   @override
   Enum get exceptionType => _type;
 
+  /// Exception to represent a http-related error.
   @override
   dynamic get message => _error;
 

@@ -19,6 +19,11 @@ enum Ambiente {
   homologacao,
 }
 
+/// The main class that provides the Pix Banco do Brasil's API functionalities.
+///
+/// This class encapsulates the operations related to:
+/// - Authentication token management,
+/// - Transaction retrieval.
 class PixBB {
   final Ambiente _ambiente;
   final String _basicKey;
@@ -50,6 +55,11 @@ class PixBB {
     }
   }
 
+  /// Retrieves a valid token from the API.
+  ///
+  /// Returns a [Future] with a [Token] object representing the token.
+  ///
+  /// Throws a [PixException] if there's an error while fetching the token.
   Future<Token> getToken() {
     final repository = TokenRepository(_client);
     return repository
@@ -57,6 +67,15 @@ class PixBB {
         .getOrThrow();
   }
 
+  /// Retrieves a list of transactions from the API.
+  ///
+  /// [token] is a valid [Token] object used for authentication.
+  ///
+  /// [dateTimeRange] is an optional [DateTimeRange] object representing the range of dates to retrieve transactions from.
+  ///
+  /// Returns a [Future] with a [List] of [Pix] objects representing the transactions.
+  ///
+  /// Throws a [PixException] if there's an error while fetching the transactions.
   Future<List<Pix>> fetchTransactions({
     required Token token,
     DateTimeRange? dateTimeRange,

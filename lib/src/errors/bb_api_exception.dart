@@ -30,7 +30,7 @@ class BBApiException implements PixException {
   @override
   String get message => _error;
 
-  /// The error message returned by the API.
+  /// The error data returned by the API.
   Map<String, dynamic> get errorData => _errorData;
 
   /// The type of exception, which in this case is always [ApiErrorType.apiErrorType].
@@ -39,7 +39,7 @@ class BBApiException implements PixException {
 
   /// Creates a new [PixException] instance for an API error with the given [error].
   static PixException apiError(Map<String, dynamic> errorMap) {
-    String errorMessage = 'uncaughtError';
+    String errorMessage = 'uncaughtMessage';
 
     if (errorMap.containsKey('error_description')) {
       errorMessage = errorMap['error_description'];

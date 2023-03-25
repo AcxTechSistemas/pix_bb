@@ -36,6 +36,46 @@
 </div>
 <br>
 
+## [v1.0.0] Breaking Changes
+
+- Changed variable name in PixBB Instantiate :
+
+  - dev_app_key => developerApplicationKey
+
+- Changed the way to use the fetchTransaction method:
+  - Before
+
+```dart
+final listPix = await pixBB.fetchRecentReceivedTransactions(
+  accessToken: token.accessToken,
+);
+```
+
+- After
+
+```dart
+final listPix = await pixBB.fetchTransactions(
+  token: token,
+);
+//Returns the last 4 days transactions
+```
+
+```dart
+final listPix = await pixBB.fetchTransactions(
+  token: token,
+  dateTimeRange: DateTimeRange(
+    start: DateTime.now().subtract(Duration(days: 1)),
+    end: DateTime.now(),
+  );
+);
+//Returns the transactions of the specified date range
+// Attention the maximum difference between the dates must be 4 days
+```
+
+  <br>
+
+---
+
 <!-- TABLE OF CONTENTS -->
 <details>
   <summary>Table of Contents</summary>
@@ -174,34 +214,66 @@ _For more examples, please refer to the_ [Documentation](https://pub.dev/documen
 
 ## Use cases
 
-**Request an access token**
+### **Request an access token**
 
 Request a token
 
 ```dart
-accessToken = await pixBB.getToken();
+final token = await pixBB.getToken();
 ```
 
-**Get recent trasactions**
+### **Fetch Pix Transactions**
 
-Request a list of transactions received from the last 4 days
+- Default Time Range
 
 ```dart
-await getRecentReceivedTransactions(accessToken: ccessToken);
+final listPix = await pixBB.fetchTransactions(
+  token: token,
+);
+//Returns the last 4 days transactions
 ```
 
-**Get transactions by date**
-
-Request a list of transactions as of a specific date
-
-⚠️ Attention the maximum difference in days between the start and end date must be 4 days ⚠️
+- Custom Time Range
 
 ```dart
-await getTransactionsByDate(
-        accessToken: accessToken,
-        initialDate: DateTime.now().subtract(const Duration(days: 4)),
-        finalDate: DateTime.now(),
-      );
+final listPix = await pixBB.fetchTransactions(
+  token: token,
+  dateTimeRange: DateTimeRange(
+    start: DateTime.now().subtract(Duration(days: 1)),
+    end: DateTime.now(),
+  );
+);
+//Returns the transactions of the specified date range
+// Attention the maximum difference between the dates must be 4 days
+```
+
+### **Handling errors**
+
+- This package provides several ways to handle errors that may occur.
+
+```dart
+
+try {
+  // Code that may throw an exception
+} on BBDateException catch (e) {
+  // Handle error in date range
+  print('BB Date error: ${e.message}');
+} on BBApiException catch (e) {
+  // Handle error response from Banco do Brasil's API
+  print('BB API error: ${e.message}');
+} on BBCertificateException catch (e) {
+  // Handle error with Pix certificate
+  print('Pix certificate error: ${e.message}');
+} on BBHttpException catch (e) {
+  // Handle HTTP request error
+  print('HTTP request error: ${e.message}');
+} on BBUnknownException catch (e) {
+  // Handle unknown error
+  print('Unknown error: ${e.message}');
+} catch (e) {
+  // Handle other types of exceptions
+  print('Unexpected error: $e');
+}
 ```
 
 <!-- CONTRIBUTING -->
