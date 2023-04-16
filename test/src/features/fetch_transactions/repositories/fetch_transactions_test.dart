@@ -29,12 +29,10 @@ void main() {
   });
 
   group('Consulta de Transações PIX', () {
-    test(
-        r'''Response com 1 Pagina:
+    test(r'''Response com 1 Pagina:
               O Metodo deve retornar uma lista de Transações PIX
               com todos os itens dessa pagina.
-          ''',
-        () async {
+          ''', () async {
       when(() => client.get(any(),
               headers: any(named: 'headers'),
               queryParameters: any(named: 'queryParameters')))
@@ -52,12 +50,10 @@ void main() {
       expect(result[0].pagador.nome, equals('VICTOR'));
     });
 
-    test(
-        r'''Response com multiplas Paginas:
+    test(r'''Response com multiplas Paginas:
               O Metodo deve percorrer em todas as paginas e
               retornar uma lista de Transações PIX contendo todos os itens.
-          ''',
-        () async {
+          ''', () async {
       when(() => client.get(any(),
               headers: any(named: 'headers'),
               queryParameters: any(named: 'queryParameters')))
@@ -75,11 +71,9 @@ void main() {
       expect(result[0].pagador.nome, equals('VICTOR'));
     });
 
-    test(
-        r'''Map da response não contem uma key "Pix":
+    test(r'''Map da response não contem uma key "Pix":
               O Metodo deverá retornar uma failure de BBApiException.
-          ''',
-        () async {
+          ''', () async {
       final expectedResponse = {
         "httpCode": "401",
         "httpMessage": "Unauthorized",

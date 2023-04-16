@@ -13,6 +13,8 @@ export 'src/errors/bb_api_exception.dart';
 export 'src/errors/bb_date_exception.dart';
 export 'src/errors/bb_http_exceptions.dart';
 export 'src/errors/bb_unknown_exception.dart';
+export 'src/features/fetch_transactions/models/pix.dart';
+export 'src/features/fetch_transactions/models/parametros.dart';
 
 enum Ambiente {
   producao,

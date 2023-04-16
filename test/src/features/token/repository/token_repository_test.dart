@@ -45,11 +45,9 @@ void main() {
       expect(result.accessToken, equals(expectedResponse['access_token']));
     });
 
-    test(
-        r'''Map da response não contem uma key "access_token":
+    test(r'''Map da response não contem uma key "access_token":
               O Metodo deverá retornar uma failure de BBApiException.
-          ''',
-        () async {
+          ''', () async {
       final expectedResponse = {'error': 'type'};
 
       when(() => client.post(any(),

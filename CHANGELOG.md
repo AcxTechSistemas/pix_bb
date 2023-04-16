@@ -1,3 +1,7 @@
+## [1.0.3] - 16-04-2023
+
+- Add nescessary models exports
+
 ## [1.0.2] - 16-04-2023
 
 - Downgrade intl to 0.17 min version
