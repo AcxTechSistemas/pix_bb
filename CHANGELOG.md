@@ -1,3 +1,7 @@
+## [1.0.2] - 16-04-2023
+
+- Downgrade intl to 0.17 min version
+
 ## [1.0.1] - 25-03-2023
 
 - Fix Readme typing errors
