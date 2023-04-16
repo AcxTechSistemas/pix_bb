@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:pix_bb/src/errors/bb_api_exception.dart';
 import 'package:pix_bb/src/errors/bb_http_exceptions.dart';
-import 'package:pix_bb/src/errors/pix_exception_interface.dart';
+import 'package:pix_bb/src/errors/pix_exception.dart';
 import 'package:pix_bb/src/services/client_service.dart';
 import 'package:result_dart/result_dart.dart';
 
@@ -34,7 +34,7 @@ class DioClient implements ClientService {
       if (e.response?.data != null) {
         return Failure(BBApiException.apiError(e.response!.data));
       } else {
-        return Failure(BBHttpException.httpException(e.message));
+        return Failure(BBHttpException.httpException(e));
       }
     } catch (e) {
       return Failure(BBHttpException.httpException(e));
@@ -66,7 +66,7 @@ class DioClient implements ClientService {
       if (e.response?.data != null) {
         return Failure(BBApiException.apiError(e.response!.data));
       } else {
-        return Failure(BBHttpException.httpException(e.message));
+        return Failure(BBHttpException.httpException(e));
       }
     } catch (e) {
       return Failure(BBHttpException.httpException(e));

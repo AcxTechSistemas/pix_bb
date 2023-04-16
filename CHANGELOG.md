@@ -1,3 +1,8 @@
+## [1.0.4] - 16-04-2023
+
+- Removed unnescessary errorTypes
+- Iprove unity tests
+
 ## [1.0.3] - 16-04-2023
 
 - Add nescessary models exports

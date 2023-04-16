@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:pix_bb/src/errors/bb_date_exception.dart';
-import 'package:pix_bb/src/errors/pix_exception_interface.dart';
+import 'package:pix_bb/src/errors/pix_exception.dart';
 import 'package:pix_bb/src/features/token/models/token.dart';
 import 'package:pix_bb/src/services/client_service.dart';
 import 'package:result_dart/result_dart.dart';
@@ -37,12 +37,17 @@ class FetchTransactionsRepository {
     DateTimeRange? dateTimeRange,
   }) async {
     if (developerApplicationKey.isEmpty) {
-      throw BBApiException.apiError(
-          {'message': 'Developer Application Key is empty or not defined'});
+      return Failure(BBApiException.apiError({
+        'error': 'empty_app_dev_key',
+        'error_description':
+            'Developer Application Key is empty or not defined',
+      }));
     }
     if (dateTimeRange != null &&
         dateTimeRange.duration >= const Duration(days: 5)) {
-      throw BBDateException.differenceBetweenDatesTooLong(dateTimeRange);
+      return Failure(
+        BBDateException.differenceBetweenDatesTooLong(dateTimeRange),
+      );
     }
     List<Pix> pixTransactions = [];
     try {

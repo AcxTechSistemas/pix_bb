@@ -20,7 +20,16 @@ void main() {
   });
 
   group('Token: ', () {
-    test('O Metodo deve retornar um Token', () async {
+    test('Should return BBApiExeption if empty basic key', () async {
+      final response = await tokenRepository.getToken(
+        url: url,
+        basicKey: '',
+      );
+      final result = response.exceptionOrNull();
+      expect(result, isNotNull);
+      expect(result!.error, equals('empty-basic-key'));
+    });
+    test('Should return Token', () async {
       final expectedResponse = {
         'access_token': '234k-vkhk-l1h2-3l3l',
         'token_type': 'Bearer',
@@ -45,9 +54,9 @@ void main() {
       expect(result.accessToken, equals(expectedResponse['access_token']));
     });
 
-    test(r'''Map da response não contem uma key "access_token":
-              O Metodo deverá retornar uma failure de BBApiException.
-          ''', () async {
+    test(
+        'Should return BBApiException if response not contains key "access_token" ',
+        () async {
       final expectedResponse = {'error': 'type'};
 
       when(() => client.post(any(),
@@ -62,8 +71,8 @@ void main() {
       var result = response.exceptionOrNull() as BBApiException;
 
       expect(result, isA<BBApiException>());
-      expect(result.message, isNotNull);
-      expect(result.errorData, contains('error'));
+      expect(result.error, isNotNull);
+      expect(result.errorDescription, contains('error'));
     });
   });
 }

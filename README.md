@@ -230,32 +230,12 @@ final listPix = await pixBB.fetchTransactions(
 
 ### **Handling errors**
 
-- This package provides several ways to handle errors that may occur.
+This package provides some ways to map and handle different types of errors,
+Below are some of the errors that can be encountered when using this package:
 
-```dart
-
-try {
-  // Code that may throw an exception
-} on BBDateException catch (e) {
-  // Handle error in date range
-  print('BB Date error: ${e.message}');
-} on BBApiException catch (e) {
-  // Handle error response from Banco do Brasil's API
-  print('BB API error: ${e.message}');
-} on BBCertificateException catch (e) {
-  // Handle error with Pix certificate
-  print('Pix certificate error: ${e.message}');
-} on BBHttpException catch (e) {
-  // Handle HTTP request error
-  print('HTTP request error: ${e.message}');
-} on BBUnknownException catch (e) {
-  // Handle unknown error
-  print('Unknown error: ${e.message}');
-} catch (e) {
-  // Handle other types of exceptions
-  print('Unexpected error: $e');
-}
-```
+- **_difference-between-dates-too-long_**: A Diferença entre as datas de inicio e fim da consulta são maiores que 4 dias.
+- **_empty-basic-key_**: Basic key vazia ou não definida
+- **_empty_app_dev_key_**: Application developer key vazia ou não definida
 
 <!-- CONTRIBUTING -->
 

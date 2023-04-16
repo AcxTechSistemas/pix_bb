@@ -1,4 +1,4 @@
-import 'package:pix_bb/src/errors/pix_exception_interface.dart';
+import 'package:pix_bb/src/errors/pix_exception.dart';
 import 'package:pix_bb/src/features/token/models/token.dart';
 import 'package:pix_bb/src/services/client_service.dart';
 import 'package:result_dart/result_dart.dart';
@@ -26,8 +26,10 @@ class TokenRepository {
     required String basicKey,
   }) async {
     if (basicKey.isEmpty) {
-      throw BBApiException.apiError(
-          {'message': 'BasicKey is empty or not defined'});
+      return Failure(BBApiException.apiError({
+        'error': 'empty-basic-key',
+        'error_description': 'BasicKey is empty or not defined',
+      }));
     }
     final response = await _client.post(
       url,

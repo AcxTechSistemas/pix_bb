@@ -8,7 +8,7 @@ import 'src/features/fetch_transactions/models/pix.dart';
 import 'src/features/token/models/token.dart';
 import 'src/services/dio_client.dart';
 export './pix_bb.dart';
-export 'src/errors/pix_exception_interface.dart';
+export 'src/errors/pix_exception.dart';
 export 'src/errors/bb_api_exception.dart';
 export 'src/errors/bb_date_exception.dart';
 export 'src/errors/bb_http_exceptions.dart';

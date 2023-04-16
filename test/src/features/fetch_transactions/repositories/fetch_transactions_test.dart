@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pix_bb/src/errors/bb_api_exception.dart';
@@ -28,15 +29,62 @@ void main() {
     "scope": "pix.read pix.write"
   });
 
-  group('Consulta de Transações PIX', () {
-    test(r'''Response com 1 Pagina:
-              O Metodo deve retornar uma lista de Transações PIX
-              com todos os itens dessa pagina.
-          ''', () async {
-      when(() => client.get(any(),
-              headers: any(named: 'headers'),
-              queryParameters: any(named: 'queryParameters')))
-          .thenAnswer((_) async => Success(onePageExpectedResponse));
+  group('FetchTransactions: ', () {
+    test('Should return BBApiExeption if empty application developer key',
+        () async {
+      final response = await fetchRepository.fetchTransactions(
+        token,
+        url: url,
+        developerApplicationKey: '',
+      );
+      final result = response.exceptionOrNull();
+      expect(result, isNotNull);
+      expect(result!.error, equals('empty_app_dev_key'));
+    });
+    test('Should return BBDateExeption If DateTimeRange is greater than 4 days',
+        () async {
+      final twentyDaysAgo = DateTime.now().subtract(const Duration(days: 20));
+      final currentDate = DateTime.now();
+      final response = await fetchRepository.fetchTransactions(
+        token,
+        url: url,
+        developerApplicationKey: developerApplicationKey,
+        dateTimeRange: DateTimeRange(start: twentyDaysAgo, end: currentDate),
+      );
+      final result = response.exceptionOrNull();
+      expect(result, isNotNull);
+      expect(result!.error, equals('difference-between-dates-too-long'));
+    });
+    test('Should return BBApiException if invalid format credentials',
+        () async {
+      when(() => client.get(
+            any(),
+            headers: any(named: 'headers'),
+            queryParameters: any(named: 'queryParameters'),
+          )).thenAnswer((_) async => Failure(BBApiException(
+            error: 'invalid_client',
+            errorDescription: 'Credenciais em formato invalido.',
+          )));
+
+      final response = await fetchRepository.fetchTransactions(
+        token,
+        url: url,
+        developerApplicationKey: developerApplicationKey,
+      );
+      final result = response.exceptionOrNull();
+      expect(result, isNotNull);
+      expect(result!.error, equals('invalid_client'));
+      expect(
+        result.errorDescription,
+        equals('Credenciais em formato invalido.'),
+      );
+    });
+    test('Should return the PIX transactions of a 1-page response', () async {
+      when(() => client.get(
+            any(),
+            headers: any(named: 'headers'),
+            queryParameters: any(named: 'queryParameters'),
+          )).thenAnswer((_) async => Success(onePageExpectedResponse));
 
       final response = await fetchRepository.fetchTransactions(
         token,
@@ -50,14 +98,13 @@ void main() {
       expect(result[0].pagador.nome, equals('VICTOR'));
     });
 
-    test(r'''Response com multiplas Paginas:
-              O Metodo deve percorrer em todas as paginas e
-              retornar uma lista de Transações PIX contendo todos os itens.
-          ''', () async {
-      when(() => client.get(any(),
-              headers: any(named: 'headers'),
-              queryParameters: any(named: 'queryParameters')))
-          .thenAnswer((_) async => Success(multiplePageExpectedResponse));
+    test('Should return the PIX transactions of a multiple pages response',
+        () async {
+      when(() => client.get(
+            any(),
+            headers: any(named: 'headers'),
+            queryParameters: any(named: 'queryParameters'),
+          )).thenAnswer((_) async => Success(multiplePageExpectedResponse));
 
       final response = await fetchRepository.fetchTransactions(
         token,
@@ -71,9 +118,8 @@ void main() {
       expect(result[0].pagador.nome, equals('VICTOR'));
     });
 
-    test(r'''Map da response não contem uma key "Pix":
-              O Metodo deverá retornar uma failure de BBApiException.
-          ''', () async {
+    test('Should return BBApiException if response not contains key "pix" ',
+        () async {
       final expectedResponse = {
         "httpCode": "401",
         "httpMessage": "Unauthorized",
@@ -95,7 +141,6 @@ void main() {
 
       expect(result, isNotNull);
       expect(result, isA<BBApiException>());
-      expect(result!.exceptionType, equals(ApiExceptionType.unknown));
     });
   });
 }

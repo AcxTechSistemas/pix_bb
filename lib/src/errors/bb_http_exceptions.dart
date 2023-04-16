@@ -1,43 +1,34 @@
-// ignore_for_file:  sort_constructors_first
-// ignore_for_file: public_member_api_docs
-
-import 'package:pix_bb/src/errors/pix_exception_interface.dart';
-
-enum HttpExceptionType {
-  networkError,
-}
+import 'package:pix_bb/src/errors/pix_exception.dart';
 
 /// Exception thrown when an HTTP request fails.
 class BBHttpException implements PixException {
-  final dynamic _error;
+  final String _error;
 
-  final HttpExceptionType _type;
+  final String _errorDescription;
 
   BBHttpException({
-    required dynamic error,
-    required HttpExceptionType type,
+    required String error,
+    required String errorDescription,
   })  : _error = error,
-        _type = type;
+        _errorDescription = errorDescription;
 
-  /// Exception to represent a http-related type.
   @override
-  Enum get exceptionType => _type;
+  String get error => _error;
 
-  /// Exception to represent a http-related error.
   @override
-  dynamic get message => _error;
+  String get errorDescription => _errorDescription;
 
-  /// Factory method for creating an instance of [BBHttpException].
+  /// Factory method for creating an instance of [SicoobHttpException].
   ///
   /// [exception] is the underlying exception that caused the HTTP request to fail.
-  static PixException httpException(dynamic exception) {
+  static PixException httpException(Object exception) {
     return BBHttpException(
-      error: exception,
-      type: HttpExceptionType.networkError,
+      error: 'network-error',
+      errorDescription: exception.toString(),
     );
   }
 
-  /// Returns a string representation of this exception.
   @override
-  String toString() => 'BBHttpException(error: $_error, type: $_type)';
+  String toString() =>
+      'BBHttpException: error: $error,  errorData: $errorDescription';
 }

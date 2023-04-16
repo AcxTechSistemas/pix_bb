@@ -1,6 +1,6 @@
 import 'package:result_dart/result_dart.dart';
 
-import '../errors/pix_exception_interface.dart';
+import '../errors/pix_exception.dart';
 
 /// This abstract class represents a client service that can perform GET and POST requests
 /// and returns a Result object that contains either a Map<String, dynamic> with the response body
