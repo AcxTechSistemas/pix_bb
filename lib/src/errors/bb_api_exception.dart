@@ -1,6 +1,6 @@
 import 'package:pix_bb/src/errors/pix_exception.dart';
 
-/// An exception representing an error response from the Sicoob API.
+/// An exception representing an error response from the BB API.
 class BBApiException implements PixException {
   final String _error;
 

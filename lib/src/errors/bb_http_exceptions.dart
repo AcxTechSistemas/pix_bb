@@ -18,7 +18,7 @@ class BBHttpException implements PixException {
   @override
   String get errorDescription => _errorDescription;
 
-  /// Factory method for creating an instance of [SicoobHttpException].
+  /// Factory method for creating an instance of [BBHttpException].
   ///
   /// [exception] is the underlying exception that caused the HTTP request to fail.
   static PixException httpException(Object exception) {

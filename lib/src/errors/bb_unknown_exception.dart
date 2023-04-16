@@ -2,7 +2,7 @@
 
 import 'package:pix_bb/src/errors/pix_exception.dart';
 
-/// An exception that represents an unknown error in the Pix Sicoob API.
+/// An exception that represents an unknown error in the Pix BB API.
 ///
 /// This exception can be used to wrap any kind of error that cannot be classified
 class BBUnknownException implements PixException {
@@ -10,7 +10,7 @@ class BBUnknownException implements PixException {
 
   final String _errorDescription;
 
-  /// Creates a new [SicoobUnknownException] with the given [_error] object and [_errorData].
+  /// Creates a new [BBUnknownException] with the given [_error] object and [_errorData].
   const BBUnknownException({
     required dynamic error,
     required String errorDescription,
