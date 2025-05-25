@@ -1,6 +1,7 @@
-## [1.0.4] - 16-04-2023
+## [2.0.0] - 16-04-2023
 
 - Update QueryParams => Body Call
+- Update Packages
 
 ## [1.0.4] - 16-04-2023
 
