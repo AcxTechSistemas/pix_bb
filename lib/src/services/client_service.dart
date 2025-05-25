@@ -14,6 +14,7 @@ abstract class ClientService {
     String url, {
     Map<String, String>? headers,
     Map<String, String>? queryParameters,
+    Map<String, String>? body,
   });
 
   /// Performs a POST request to the specified [url] and returns a [Result] object
@@ -24,5 +25,6 @@ abstract class ClientService {
     String url, {
     Map<String, String>? headers,
     Map<String, String>? queryParameters,
+    Map<String, String>? body,
   });
 }

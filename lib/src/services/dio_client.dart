@@ -21,6 +21,7 @@ class DioClient implements ClientService {
     String url, {
     Map<String, String>? headers,
     Map<String, String>? queryParameters,
+    Map<String, String>? body,
   }) async {
     try {
       final options = Options(headers: headers);
@@ -28,9 +29,10 @@ class DioClient implements ClientService {
         url,
         options: options,
         queryParameters: queryParameters,
+        data: body,
       );
       return Success(response.data);
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       if (e.response?.data != null) {
         return Failure(BBApiException.apiError(e.response!.data));
       } else {
@@ -53,6 +55,7 @@ class DioClient implements ClientService {
     String url, {
     Map<String, String>? headers,
     Map<String, String>? queryParameters,
+    Map<String, String>? body,
   }) async {
     try {
       final options = Options(headers: headers);
@@ -60,9 +63,10 @@ class DioClient implements ClientService {
         url,
         options: options,
         queryParameters: queryParameters,
+        data: body,
       );
       return Success(response.data);
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       if (e.response?.data != null) {
         return Failure(BBApiException.apiError(e.response!.data));
       } else {

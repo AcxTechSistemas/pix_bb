@@ -37,9 +37,9 @@ class TokenRepository {
         'Authorization': basicKey,
         'Content-Type': 'application/x-www-form-urlencoded',
       },
-      queryParameters: {
+      body: {
         'grant_type': 'client_credentials',
-        'scope': 'cob.read cob.write pix.read pix.write',
+        'scope': 'pix.read',
       },
     );
 

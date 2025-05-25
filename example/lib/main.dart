@@ -11,9 +11,7 @@ class ExampleApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(
-        useMaterial3: true,
-      ),
+      theme: ThemeData(useMaterial3: true),
       debugShowCheckedModeBanner: false,
       home: const HomePage(),
     );
@@ -42,19 +40,17 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Api Pix V1 Banco do Brasil'),
-      ),
+      appBar: AppBar(title: const Text('Api Pix V1 Banco do Brasil')),
       body: FutureBuilder(
         future: pixBB.getToken().then(
-              (token) => pixBB.fetchTransactions(
-                token: token,
-                dateTimeRange: DateTimeRange(
-                  start: DateTime.now().subtract(const Duration(days: 4)),
-                  end: DateTime.now(),
-                ),
-              ),
+          (token) => pixBB.fetchTransactions(
+            token: token,
+            dateTimeRange: DateTimeRange(
+              start: DateTime.now().subtract(const Duration(days: 4)),
+              end: DateTime.now(),
             ),
+          ),
+        ),
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.none:
@@ -85,17 +81,14 @@ class _HomePageState extends State<HomePage> {
               } else if (snapshot.hasError) {
                 if (snapshot.error is PixException) {
                   final error = snapshot.error;
-                  final errorMessage = error is PixException
-                      ? error.error
-                      : snapshot.error.toString();
-                  return Center(
-                    child: Text(errorMessage),
-                  );
+                  final errorMessage =
+                      error is PixException
+                          ? error.error
+                          : snapshot.error.toString();
+                  return Center(child: Text(errorMessage));
                 }
               }
-              return const Center(
-                child: Text('Nenhuma transação encontrada'),
-              );
+              return const Center(child: Text('Nenhuma transação encontrada'));
           }
         },
       ),
