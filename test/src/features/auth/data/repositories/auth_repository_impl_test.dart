@@ -1,34 +1,36 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:pix_bb/src/errors/pix_exception.dart';
 import 'package:pix_bb/src/errors/bb_api_exception.dart';
-import 'package:pix_bb/src/features/token/models/token.dart';
-import 'package:pix_bb/src/features/token/repository/token_repository.dart';
-import 'package:pix_bb/src/services/client_service.dart';
+import 'package:pix_bb/src/features/auth/domain/entities/token.dart';
+import 'package:pix_bb/src/features/auth/data/repositories/auth_repository_impl.dart';
+import 'package:pix_bb/src/core/services/client_service.dart';
 import 'package:result_dart/result_dart.dart';
 
 class _MockClientService extends Mock implements ClientService {}
 
 void main() {
   late ClientService client;
-  late TokenRepository tokenRepository;
+  late AuthRepositoryImpl authRepository;
   const url = 'https://teste.example.com/auth';
   const basicKey = 'basic-key';
 
   setUp(() {
     client = _MockClientService();
-    tokenRepository = TokenRepository(client);
+    authRepository = AuthRepositoryImpl(client);
   });
 
-  group('Token: ', () {
-    test('Should return BBApiExeption if empty basic key', () async {
-      final response = await tokenRepository.getToken(
+  group('AuthRepositoryImpl: ', () {
+    test('Should return BBApiException if empty basic key', () async {
+      final response = await authRepository.getToken(
         url: url,
         basicKey: '',
       );
-      final result = response.exceptionOrNull();
+      final result = response.exceptionOrNull() as PixException;
       expect(result, isNotNull);
-      expect(result!.error, equals('empty-basic-key'));
+      expect(result.error, equals('empty-basic-key'));
     });
+
     test('Should return Token', () async {
       final expectedResponse = {
         'access_token': '234k-vkhk-l1h2-3l3l',
@@ -39,10 +41,11 @@ void main() {
 
       when(() => client.post(any(),
               headers: any(named: 'headers'),
+              body: any(named: 'body'),
               queryParameters: any(named: 'queryParameters')))
           .thenAnswer((_) async => Success(expectedResponse));
 
-      final response = await tokenRepository.getToken(
+      final response = await authRepository.getToken(
         url: url,
         basicKey: basicKey,
       );
@@ -54,17 +57,16 @@ void main() {
       expect(result.accessToken, equals(expectedResponse['access_token']));
     });
 
-    test(
-        'Should return BBApiException if response not contains key "access_token" ',
-        () async {
+    test('Should return BBApiException if response does not contain key "access_token"', () async {
       final expectedResponse = {'error': 'type'};
 
       when(() => client.post(any(),
               headers: any(named: 'headers'),
+              body: any(named: 'body'),
               queryParameters: any(named: 'queryParameters')))
           .thenAnswer((_) async => Success(expectedResponse));
 
-      final response = await tokenRepository.getToken(
+      final response = await authRepository.getToken(
         url: url,
         basicKey: basicKey,
       );

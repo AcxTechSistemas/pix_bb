@@ -1,8 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:pix_bb/src/errors/bb_api_exception.dart';
 import 'package:pix_bb/src/errors/bb_http_exceptions.dart';
-import 'package:pix_bb/src/errors/pix_exception.dart';
-import 'package:pix_bb/src/services/client_service.dart';
+import 'package:pix_bb/src/core/services/client_service.dart';
 import 'package:result_dart/result_dart.dart';
 
 /// A client service that uses Dio HTTP client to perform HTTP GET and POST requests.
@@ -17,14 +16,18 @@ class DioClient implements ClientService {
   /// The optional `headers` and `queryParameters` parameters can be used to pass additional
   /// headers and query parameters to the request.
   @override
-  Future<Result<Map<String, dynamic>, PixException>> get(
+  Future<Result<Map<String, dynamic>>> get(
     String url, {
     Map<String, String>? headers,
     Map<String, String>? queryParameters,
     Map<String, String>? body,
   }) async {
     try {
-      final options = Options(headers: headers);
+      final contentType = headers?['Content-Type'] ?? headers?['content-type'];
+      final options = Options(
+        headers: headers,
+        contentType: contentType,
+      );
       final response = await dio.get(
         url,
         options: options,
@@ -33,7 +36,7 @@ class DioClient implements ClientService {
       );
       return Success(response.data);
     } on DioException catch (e) {
-      if (e.response?.data != null) {
+      if (e.response?.data != null && e.response?.data is Map) {
         return Failure(BBApiException.apiError(e.response!.data));
       } else {
         return Failure(BBHttpException.httpException(e));
@@ -51,14 +54,18 @@ class DioClient implements ClientService {
   /// The optional `headers` and `queryParameters` parameters can be used to pass additional
   /// headers and query parameters to the request.
   @override
-  Future<Result<Map<String, dynamic>, PixException>> post(
+  Future<Result<Map<String, dynamic>>> post(
     String url, {
     Map<String, String>? headers,
     Map<String, String>? queryParameters,
     Map<String, String>? body,
   }) async {
     try {
-      final options = Options(headers: headers);
+      final contentType = headers?['Content-Type'] ?? headers?['content-type'];
+      final options = Options(
+        headers: headers,
+        contentType: contentType,
+      );
       final response = await dio.post(
         url,
         options: options,
@@ -67,7 +74,7 @@ class DioClient implements ClientService {
       );
       return Success(response.data);
     } on DioException catch (e) {
-      if (e.response?.data != null) {
+      if (e.response?.data != null && e.response?.data is Map) {
         return Failure(BBApiException.apiError(e.response!.data));
       } else {
         return Failure(BBHttpException.httpException(e));

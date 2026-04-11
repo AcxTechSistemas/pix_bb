@@ -1,0 +1,29 @@
+import 'package:pix_bb/src/errors/pix_exception.dart';
+import 'package:result_dart/result_dart.dart';
+
+/// This abstract class represents a client service that can perform GET and POST requests
+/// and returns a Result object that contains either a Map<String, dynamic> with the response body
+/// or a PixException if an error occurs.
+abstract class ClientService {
+  /// Performs a GET request to the specified [url] and returns a [Result] object
+  /// containing either a [Map<String, dynamic>] with the response body or a [PixException] if an error occurs.
+  ///
+  /// Optional [headers] and [queryParameters] can be provided for the request.
+  Future<Result<Map<String, dynamic>>> post(
+    String url, {
+    Map<String, String>? headers,
+    Map<String, String>? queryParameters,
+    Map<String, String>? body,
+  });
+
+  /// Performs a POST request to the specified [url] and returns a [Result] object
+  /// containing either a [Map<String, dynamic>] with the response body or a [PixException] if an error occurs.
+  ///
+  /// An optional [headers] and [body] can be provided for the request.
+  Future<Result<Map<String, dynamic>>> get(
+    String url, {
+    Map<String, String>? headers,
+    Map<String, String>? queryParameters,
+    Map<String, String>? body,
+  });
+}

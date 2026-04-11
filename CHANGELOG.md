@@ -1,3 +1,15 @@
+## [3.0.0] - 10-04-2026
+
+- **Refatoração Completa**: Migração para Clean Architecture (camadas `domain`, `data`, `core`).
+- **SOLID**: Aplicação rigorosa dos princípios SOLID (Inversão de Dependência, Segregação de Interface).
+- **ResultDart 2.x**: Migração de `result_dart` para versão 2.2.0 (Breaking Change interna na tipagem de Retorno).
+- **Correção de Bugs**:
+  - Resolvido erro 403 Forbidden (Adicionado prefixo "Basic " e codificação form-urlencoded).
+  - Resolvido erro 500 Internal Server Error (Correção de formato de data e endpoint de listagem).
+  - Correção na paginação que buscava a página 0 duas vezes.
+- **Example**: Reformulação completa do exemplo com UI premium, segurança de credenciais e dashboard intuitivo.
+- **Documentação**: Atualização do README e ARCHITECTURE para refletir a nova estrutura.
+
 ## [2.0.0] - 16-04-2023
 
 - Update QueryParams => Body Call

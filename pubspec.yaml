@@ -1,6 +1,6 @@
 name: pix_bb
 description: Easy-to-use interface for integrating with Banco do Brasil's Pix API.
-version: 2.0.0
+version: 3.0.0
 homepage: https://github.com/AcxTechSistemas/pix_bb
 
 environment:
@@ -8,17 +8,18 @@ environment:
   flutter: ">=1.17.0"
 
 dependencies:
-  dio: ">=5.0.1 <6.0.0"
+  dio: ^5.4.3
   flutter:
     sdk: flutter
-  intl: ">=0.17.0 <1.0.0"
-  mocktail: ^0.3.0
-  result_dart: ">=1.0.5 <2.0.0"
+  intl: ^0.19.0
+  equatable: ^2.0.5
+  result_dart: ^2.2.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^2.0.0
+  flutter_lints: ^4.0.0
+  mocktail: ^1.0.4
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

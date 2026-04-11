@@ -1,302 +1,142 @@
 <a name="readme-top"></a>
 
-<h1 align="center">Pix BB - Easy to use interface for integrating with Banco do Brasil's Pix API in your Flutter Apps.</h1>
+<h1 align="center">Pix BB - Fast and Robust Banco do Brasil Pix Integration</h1>
 
-<!-- PROJECT LOGO -->
-<br />
 <div align="center">
   <a href="https://pub.dev/packages/pix_bb">
-    <img src="https://raw.githubusercontent.com/AcxTechSistemas/pix_bb/main/images/package-logo.png" alt="Logo" width="600">
+    <img src="https://raw.githubusercontent.com/AcxTechSistemas/pix_bb/main/images/package-logo.png" alt="Logo" width="400">
   </a>
 
   <p align="center">
-    This package offers an easy-to-use interface for integrating with Banco do Brasil's Pix API. With this package, you can get transaction information quickly and efficiently in your Flutter apps.
+    O pacote <b>pix_bb</b> fornece uma interface simplificada e robusta para integração com a API de Pix do Banco do Brasil. Totalmente refatorado seguir os princípios de <b>Clean Architecture</b> e <b>SOLID</b>.
     <br />
-    <a href="https://pub.dev/documentation/pix_bb/latest/"><strong>Explore the docs »</strong></a>
+    <a href="https://pub.dev/documentation/pix_bb/latest/"><strong>Explore a documentação »</strong></a>
     <br />
     <br />
-    <!-- <a href="https://github.com/othneildrew/Best-README-Template">View Demo</a> -->
-    <!-- · -->
-    <a href="https://github.com/AcxTechSistemas/pix_bb/issues">Report Bug</a>
+    <a href="https://github.com/AcxTechSistemas/pix_bb/issues">Reportar Bug</a>
     ·
-    <a href="https://github.com/AcxTechSistemas/pix_bb/issues">Request Feature</a>
+    <a href="https://github.com/AcxTechSistemas/pix_bb/issues">Solicitar Recurso</a>
   </p>
-
-<br>
-
-<!--  SHIELDS  ---->
 
 [![License](https://img.shields.io/github/license/AcxTechSistemas/pix_bb?style=plastic)](https://github.com/AcxTechSistemas/pix_bb/blob/main/LICENSE)
 [![Pub Points](https://img.shields.io/pub/points/pix_bb?label=pub%20points&style=plastic)](https://pub.dev/packages/pix_bb/score)
-[![Contributors](https://img.shields.io/github/contributors/AcxTechSistemas/pix_bb?style=plastic)](https://github.com/AcxTechSistemas/pix_bb/graphs/contributors)
-[![Forks](https://img.shields.io/github/forks/AcxTechSistemas/pix_bb?color=yellowgreen&logo=github&style=plastic)](https://github.com/AcxTechSistemas/pix_bb/graphs/contributors)
-
 [![Pub Publisher](https://img.shields.io/pub/publisher/pix_bb?style=plastic)](https://pub.dev/publishers/acxtech.com.br/packages)
 
 </div>
-<br>
-
-## [v1.0.0] Breaking Changes
-
-- Changed variable name in PixBB Instantiate :
-
-  - dev_app_key => developerApplicationKey
-
-- Changed the way to use the fetchTransaction method:
-  - Before
-
-```dart
-final listPix = await pixBB.fetchRecentReceivedTransactions(
-  accessToken: token.accessToken,
-);
-```
-
-- After
-
-```dart
-final listPix = await pixBB.fetchTransactions(
-  token: token,
-);
-//Returns the last 4 days transactions
-```
-
-```dart
-final listPix = await pixBB.fetchTransactions(
-  token: token,
-  dateTimeRange: DateTimeRange(
-    start: DateTime.now().subtract(Duration(days: 1)),
-    end: DateTime.now(),
-  );
-);
-//Returns the transactions of the specified date range
-// Attention the maximum difference between the dates must be 4 days
-```
-
-  <br>
 
 ---
 
-<!-- TABLE OF CONTENTS -->
-<details>
-  <summary>Table of Contents</summary>
-  <ol>
-    <li><a href="#about-the-project">About The Project</a></li>
-    <li><a href="#how-to-use">How To Use</a></li>
-    <li><a href="#features">Features</a></li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgements">Acknowledgements</a></li>
-  </ol>
-</details>
+## 🚀 Versão 3.0.0 (Principais Mudanças)
 
-<br>
+- **Clean Architecture**: Reestruturação interna completa para maior estabilidade e manutenibilidade.
+- **SOLID**: Todas as implementações agora seguem inversão de dependência e segregação de interfaces.
+- **Result Pattern**: Erros são tratados de forma previsível usando `result_dart`.
+- **Bug Fixes**: Correção de erros 403 (Auth) e 500 (API) comuns na integração com o BB.
 
-<!-- ABOUT THE PROJECT -->
+---
 
-## About The Project
+## 📋 Pré-requisitos
 
-<br>
-<Center>
-<img src="https://raw.githubusercontent.com/AcxTechSistemas/pix_bb/main/images/product-screenshot.png" alt="Pix Banco do Brasil PNG" width=500>
-</Center>
+- Chave Pix cadastrada no Banco do Brasil.
+- Acesso exclusivo para **Pessoas Jurídicas**.
+- Cadastro no [Portal de Desenvolvedores BB](https://developers.bb.com.br/).
 
-<br>
+---
 
-This package offers an easy-to-use interface for integrating with Banco do Brasil's Pix API. With this package, you can get transaction information quickly and efficiently in your Flutter apps.
+## ⚙️ Começando
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-<!-- GETTING STARTED -->
-
-## Pre Requirements
-
-- Key Pix registered with Banco do Brasil
-- Exclusive for legal entities
-- Registration on the [BB Developers Portal](https://developers.bb.com.br/conheca-o-portal)
-
-## Getting Started
-
-To install This package in your project you can follow the instructions below:
-
-a) Add in your pubspec.yaml:
+Instale o pacote via terminal:
 
 ```sh
- dependencies:
-    pix_bb: <last-version>
+flutter pub add pix_bb
 ```
 
-b) or use:
+Ou no seu `pubspec.yaml`:
 
-```sh
- dart pub add pix_bb
+```yaml
+dependencies:
+  pix_bb: ^3.0.0
 ```
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+---
 
-<!-- USAGE EXAMPLES -->
+## 📖 Como Usar
 
-## How To Use
+### 1. Instanciação
+Configure a classe principal com suas credenciais.
 
-This package is ready for get transactions information quickly!
-
-First instantiate the class passing the appropriate parameters
-
-```Dart
+```dart
+import 'package:pix_bb/pix_bb.dart';
 
 final pixBB = PixBB(
-  ambiente: Ambiente.homologacao,
-  basicKey:'BASIC_KEY',
-  applicationDeveloperKey: 'APP_DEV_KEY',
+  ambiente: Ambiente.producao, // OU Ambiente.homologacao
+  basicKey: 'SUA_BASIC_KEY',
+  developerApplicationKey: 'SUA_APP_DEV_KEY',
 );
 ```
 
-Make a request to the API with request a list of transactions received from the last 4 days
+### 2. Autenticação (Get Token)
+Obtenha o token de acesso de forma assíncrona.
 
 ```dart
-    await pixBB.getToken().then((token) {
-      pixBB
-          .fetchTransactions(token: token)
-          .then((response) {
-        print(response); // it's a List<Pix>.
-      }).catchError((e) {
-        print(e);
-        // It's a PixException.
-        //This package provides several ways to handle errors that may occur.
-        //see the docs!
-      });
-    });
+try {
+  final token = await pixBB.getToken();
+  print('Token extraído: ${token.accessToken}');
+} catch (e) {
+  print('Erro na autenticação: $e');
+}
 ```
 
-_For more examples, please refer to the_ [Documentation](https://pub.dev/documentation/pix_bb/latest/)
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-<!-- ROADMAP -->
-
-## Features
-
-- ✅ Queries
-  - ✅ Get Recent Transactions
-  - ✅ Get Transactions By Date
-
----
-
-- 🚧 Dynamic QR Code configuration: Creation of Pix billing with unique identification;
-- 🚧 Receipt Verification: Status verification of generated charges;
-- 🚧 Review: Allows you to change the generated billing data;
-- 🚧 Return (request and consultation): Allows Pix to be returned to the payer in partial or full amount and that returns can be consulted.
-
-<!-- Right now this package has concluded all his intended features. If you have any suggestions or find something to report, see below how to contribute to it. -->
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
----
-
-## Use cases
-
-### **Request an access token**
-
-Request a token
+### 3. Listagem de Transações Pix
+Busque transações recebidas com filtros de data (máximo 4 dias de intervalo).
 
 ```dart
-final token = await pixBB.getToken();
-```
+// Busca as transações dos últimos 4 dias (padrão)
+final transactions = await pixBB.fetchTransactions(token: token);
 
-### **Fetch Pix Transactions**
-
-- Default Time Range
-
-```dart
-final listPix = await pixBB.fetchTransactions(
-  token: token,
-);
-//Returns the last 4 days transactions
-```
-
-- Custom Time Range
-
-```dart
-final listPix = await pixBB.fetchTransactions(
+// Com range customizado
+final customTransactions = await pixBB.fetchTransactions(
   token: token,
   dateTimeRange: DateTimeRange(
     start: DateTime.now().subtract(Duration(days: 1)),
     end: DateTime.now(),
-  );
+  ),
 );
-//Returns the transactions of the specified date range
-// Attention the maximum difference between the dates must be 4 days
 ```
-
-### **Handling errors**
-
-This package provides some ways to map and handle different types of errors,
-Below are some of the errors that can be encountered when using this package:
-
-- **_difference-between-dates-too-long_**: A Diferença entre as datas de inicio e fim da consulta são maiores que 4 dias.
-- **_empty-basic-key_**: Basic key vazia ou não definida
-- **_empty_app_dev_key_**: Application developer key vazia ou não definida
-
-<!-- CONTRIBUTING -->
-
-## Contributing
-
-🚧 [Contributing Guidelines](https://github.com/angular/angular/blob/main/CONTRIBUTING.md) - Currently being updated 🚧
-
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-
-If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the appropriate tag.
-Don't forget to give the project a star! Thanks again!
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-Remember to include a tag, and to follow [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) and [Semantic Versioning](https://semver.org/) when uploading your commit and/or creating the issue.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-<!-- LICENSE -->
-
-## License
-
-Distributed under the MIT `LICENSE.txt` for more information.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-<!-- CONTACT
-## Contact
-
-AcxTech Sistemas
-- [Website](https://www.acxtech.com.br/)
-- [Other useful links](https://linktr.ee/acxtech)
-
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p> -->
-
-<!-- ACKNOWLEDGMENTS -->
-
-## Aknowledgements
-
-Thank you to all the people who contributed to this project, whithout you this project would not be here today.
-
-<a href="https://github.com/AcxTechSistemas/pix_bb/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=AcxTechSistemas/pix_bb" />
-</a>
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-## Maintaned by
 
 ---
 
-<br>
+## 🔒 Segurança de Credenciais
+
+Para manter suas credenciais seguras durante o desenvolvimento do seu exemplo, criamos um padrão de arquivo `credentials.dart` que é automaticamente ignorado pelo Git. 
+
+1. No diretório `example/lib`, crie um arquivo `credentials.dart`.
+2. Adicione suas chaves nele.
+3. Certifique-se de que ele está no `.gitignore`.
+
+---
+
+## 🏗️ Arquitetura e Contribuição
+
+Para detalhes sobre como o pacote é construído internamente, veja o arquivo [ARCHITECTURE.md](ARCHITECTURE.md).
+
+Se desejar contribuir, por favor faça um fork do projeto e envie um Pull Request. Todas as contribuições são bem-vindas!
+
+---
+
+## 📄 Licença
+
+Distribuído sob a licença MIT. Veja `LICENSE` para mais informações.
+
+<p align="right">(<a href="#readme-top">voltar ao topo</a>)</p>
+
+---
+
 <p align="center">
   <a href="https://www.acxtech.com.br">
-    <img width="110px" src="https://avatars.githubusercontent.com/u/125107060?s=400&u=85fb5cd28beb2bd641234de757e6f6f8c872355c&v=4">
+    <img width="110px" src="https://avatars.githubusercontent.com/u/125107060?s=400&v=4">
   </a>
   <p align="center">
     Built and maintained by <a href="https://www.acxtech.com.br">AcxTech Sistemas</a>.
   </p>
+</p>

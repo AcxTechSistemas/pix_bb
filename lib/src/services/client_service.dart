@@ -10,7 +10,7 @@ abstract class ClientService {
   /// containing either a [Map<String, dynamic>] with the response body or a [PixException] if an error occurs.
   ///
   /// Optional [headers] and [queryParameters] can be provided for the request.
-  Future<Result<Map<String, dynamic>, PixException>> post(
+  AsyncResult<Map<String, dynamic>> post(
     String url, {
     Map<String, String>? headers,
     Map<String, String>? queryParameters,
@@ -21,7 +21,7 @@ abstract class ClientService {
   /// containing either a [Map<String, dynamic>] with the response body or a [PixException] if an error occurs.
   ///
   /// An optional [headers] and [body] can be provided for the request.
-  Future<Result<Map<String, dynamic>, PixException>> get(
+  AsyncResult<Map<String, dynamic>> get(
     String url, {
     Map<String, String>? headers,
     Map<String, String>? queryParameters,
