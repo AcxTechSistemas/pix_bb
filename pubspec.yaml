@@ -1,6 +1,6 @@
 name: pix_bb
 description: Interface versátil e robusta para integração com a API de Pix do Banco do Brasil em apps Flutter e Dart.
-version: 3.0.0
+version: 3.0.1
 homepage: https://github.com/AcxTechSistemas/pix_bb
 repository: https://github.com/AcxTechSistemas/pix_bb
 
