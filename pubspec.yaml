@@ -1,6 +1,7 @@
 name: pix_bb
 description: Easy-to-use interface for integrating with Banco do Brasil's Pix API.
 version: 3.0.0
+publish_to: https://pub.dev
 homepage: https://github.com/AcxTechSistemas/pix_bb
 
 environment:
